@@ -2,3 +2,4 @@
 /.idea/
 /core/temp.py
 */__pycache__/
+db.sqlite3
