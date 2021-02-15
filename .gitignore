@@ -1,2 +1,4 @@
 /venv/
 /.idea/
+/core/temp.py
+*/__pycache__/

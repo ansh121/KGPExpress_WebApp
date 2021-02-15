@@ -1,111 +1,63 @@
 {% extends "layouts/base-fullscreen.html" %}
 
-{% block title %} Register {% endblock %} 
+{% block title %} Sign Up {% endblock %}
 
 <!-- Specific Page CSS goes HERE  -->
 {% block stylesheets %}{% endblock stylesheets %}
 
-{% block body_class %} bg-soft {% endblock body_class %}
+{% block body_class %} {% endblock body_class %}
 
 {% block content %}
 
-    <main>
-
-        <!-- Section -->
-        <section class="vh-lg-100 d-flex align-items-center">
+    <main class="page login-page" style="background: url('/static/assets/img/hijli.jpg') top;filter: blur(0px);">
+        <section class="clean-block clean-form dark" style="border-style: solid;background: transparent;">
             <div class="container">
-                <div class="row justify-content-center form-bg-image" data-background="/static/assets/img/illustrations/signin.svg">
-                    <div class="col-12 d-flex align-items-center justify-content-center">
-                        <div class="signin-inner my-3 my-lg-0 bg-white shadow-soft border rounded border-light p-4 p-lg-5 w-100 fmxw-500">
 
-                            <div class="text-center text-md-center mb-4 mt-md-0">
-                                <h1 class="mb-0 h3">
-                                    <a target="_blank"
-                                       href="https://appseed.us/admin-dashboards/django-dashboard-volt">Django Volt</a> - Sign UP
-                                </h1>
-                                <br />
-                                <p>
-                                    {% if msg %}
-                                        {{ msg | safe }}
-                                    {% else %}
-                                        Add your credentials
-                                    {% endif %}                                     
-                                </p>    
-                            </div>
-                            
-                            <form method="post" action="">
-                            
-                                {% csrf_token %}
-
-                                <!-- Form -->
-                                <div class="form-group mb-4">
-                                    <label for="email">Username</label>
-                                    <div class="input-group">
-                                        <span class="input-group-text" id="basic-addon3"><span class="fas fa-user-shield"></span></span>
-                                        {{ form.username }}
-                                    </div>
-                                    <span class="text-error">{{ form.username.errors }}</span>
-                                </div>
-                                <!-- End of Form -->
-
-                                <!-- Form -->
-                                <div class="form-group mb-4">
-                                    <label for="email">Your Email</label>
-                                    <div class="input-group">
-                                        <span class="input-group-text" id="basic-addon3"><span class="fas fa-envelope"></span></span>
-                                        {{ form.email }}
-                                    </div>
-                                    <span class="text-error">{{ form.email.errors }}</span>
-                                </div>
-                                <!-- End of Form -->
-
-                                <div class="form-group">
-
-                                    <!-- Form -->
-                                    <div class="form-group mb-4">
-                                        <label for="password">Password</label>
-                                        <div class="input-group">
-                                            <span class="input-group-text" id="basic-addon4"><span class="fas fa-unlock-alt"></span></span>
-                                            {{ form.password1 }}
-                                        </div>  
-                                        <span class="text-error">{{ form.password1.errors }}</span>
-                                    </div>
-                                    <!-- End of Form -->
-
-                                    <!-- Form -->
-                                    <div class="form-group mb-4">
-                                        <label for="password">Password Check</label>
-                                        <div class="input-group">
-                                            <span class="input-group-text" id="basic-addon4"><span class="fas fa-unlock-alt"></span></span>
-                                            {{ form.password2 }}
-                                        </div>  
-                                        <span class="text-error">{{ form.password2.errors }}</span>
-                                    </div>
-
-                                    <div class="d-flex justify-content-between align-items-center mb-4">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck5">
-                                            <label class="form-check-label" for="defaultCheck5">
-                                              Agree terms
-                                            </label>
-                                        </div>
-                                        <div class="form-check">
-                                            <a href="{% url 'login' %}" class="small text-right">Login</a>
-                                        </div>
-                                    </div>
-                                    
-                                </div>
-                                <button type="submit" name="register" class="btn btn-block btn-primary">Sign in</button>
-                            </form>
-                            <div class="d-flex justify-content-center align-items-center mt-4">
-                                <span class="font-weight-normal">
-                                    &copy; <a  href="https://themesberg.com" target="_blank">Themesberg</a> 
-                                    - coded by <a target="_blank" href="https://appseed.us">AppSeed</a>
-                                </span>
-                            </div>
+                <form method="post" action="" style="border-radius: 10px;margin-top: 50px;padding: 33px;border-color: rgb(255,255,255);">
+                    {% csrf_token %}
+                    <h1 style="font-size: 25px;text-align: center;padding: 10px;font-weight: 600;">KGPExpress - Sign Up</h1>
+                    <p style="text-align: center;font-size: 13px;">
+                        {% if msg %}
+                            {{ msg | safe }}<br>
+                        {% else %}
+                            Add your credentials<br>
+                        {% endif %}
+                    </p>
+                    <div class="form-group"><label for="email" style="font-size: 14px;">Username</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-user" style="width: 16px;"></i></span></div><input class="form-control" type="text" id="username" placeholder="Username" required="" pattern="^[a-zA-Z0-9_.-]*$" style="font-size: 14px;" name="username">
+                            <div class="input-group-append"></div>
                         </div>
                     </div>
-                </div>
+                    <div class="form-group"><label for="email" style="font-size: 14px;">Your Email</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-envelope"></i></span></div><input class="form-control" type="email" id="email" placeholder="Email" required=""  style="font-size: 14px;" name="email">
+                            <div class="input-group-append"></div>
+                        </div>
+                    </div>
+                    <div class="form-group"><label for="password" style="font-size: 14px;">Password</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-unlock-alt" style="width: 16px;"></i></span></div><input class="form-control" id="password" type="password" required="" minlength="8" maxlength="30" style="font-size: 14px;" name="password1" placeholder="Password">
+                            <div class="input-group-append"></div>
+                        </div>
+                    </div>
+                    <div class="form-group"><label for="password" style="font-size: 14px;">Password Check</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-unlock-alt" style="width: 16px;"></i></span></div><input class="form-control" id="password_check" type="password" placeholder="Password Check" style="font-size: 14px;" name="password2" required="" minlength="8" maxlength="30">
+                            <div class="input-group-append"></div>
+                        </div>
+                        <span id='message'></span>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col-auto">
+                                <div class="form-check"><input class="form-check-input" type="checkbox" id="checkbox"><label class="form-check-label" for="checkbox" style="font-size: 14px;">Agree terms</label></div>
+                            </div>
+                            <div class="col" style="text-align: right;"><a href="/login" style="font-size: 14px;">Login</a></div>
+                        </div>
+
+                    </div><button class="btn btn-primary btn-block" type="submit" style="font-size: 14px;">Sign Up</button>
+                </form>
             </div>
         </section>
     </main>
@@ -113,4 +65,6 @@
 {% endblock content %}
 
 <!-- Specific Page JS goes HERE  -->
-{% block javascripts %}{% endblock javascripts %}
+{% block javascripts %}
+    <script src="/static/assets/js/register.js"></script>
+{% endblock javascripts %}

@@ -1,0 +1,1 @@
+$('.basicAutoSelect').autoComplete();

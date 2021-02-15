@@ -1,10 +1,66 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends "layouts/base-fullscreen.html" %}
+
+{% block title %} Home {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block body_class %} {% endblock body_class %}
+
+{% block content %}
+
+    <main class="page landing-page">
+        <section class="clean-block payment-form dark">
+            <div class="container" style="padding: 25px;">
+
+                <form name="form" method="post" action="" style="max-width: 100%;">
+
+                    {% csrf_token %}
+
+                    <div class="card-details" style="padding: 25px;">
+                        <h3 class="title">Subject Details</h3>
+
+                        <div class="form-row">
+                            <div class="col-sm-7">
+                                <div class="form-group"><label for="card-holder">Subject</label>
+                                    <select name="subject" class="form-control basicAutoSelect" name="simple_select" placeholder="type to search..."
+                                            data-url="/static/assets/data/subject_list.json" autocomplete="off"></select>
+                                </div>
+                            </div>
+                            <div class="col-sm-5">
+                                <div class="form-group">
+                                    <div class="form-row">
+                                        <div class="col" style="width: 50%;"><label>Semester</label>
+                                            <select class="custom-select" name="semester">
+                                                <option selected>Spring</option>
+                                                <option value="1">Autumn</option>
+                                            </select>
+
+                                        </div>
+                                        <div class="col" style="width: 50%;"><label>Year</label>
+                                            <select class="custom-select" name="year">
+                                                <option selected>2021</option>
+                                                <option value="1">2020</option>
+                                            </select>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="form-group"><button class="btn btn-primary btn-block" type="submit" style="margin: 0px;">Search</button></div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </main>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+    <script src="https://cdn.jsdelivr.net/gh/xcash/bootstrap-autocomplete@master/dist/latest/bootstrap-autocomplete.min.js"></script>
+    <script src="/static/assets/js/index.js"></script>
+{% endblock javascripts %}
