@@ -18,7 +18,13 @@
                     <h1 style="font-size: 25px;text-align: center;padding: 10px;font-weight: 600;">KGPExpress - Sign Up</h1>
                     <p style="text-align: center;font-size: 13px;">
                         {% if msg %}
-                            {{ msg | safe }}<br>
+                            {% if msg == "verification sent" %}
+                                <span style="color: green;">Verification Mail sent to your Email Id. Please Verify and <a href='/login'>Login</a></span>
+                            {% elif success %}
+                                <span style="color: green;">{{ msg }}</span>
+                            {% else %}
+                                <span style="color: red;">{{ msg }}</span>
+                            {% endif %}
                         {% else %}
                             Add your credentials<br>
                         {% endif %}
@@ -37,11 +43,11 @@
                     </div>
                     <div class="form-group"><label for="password" style="font-size: 14px;">Password</label>
                         <div class="input-group">
-                            <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-unlock-alt" style="width: 16px;"></i></span></div><input class="form-control" id="password" type="password" required="" minlength="8" maxlength="30" style="font-size: 14px;" name="password1" placeholder="Password">
+                            <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-unlock-alt" style="width: 16px;"></i></span></div><input class="form-control" id="password" type="password" required="" minlength="8" maxlength="30" style="font-size: 14px;" name="password1" placeholder="Password" >
                             <div class="input-group-append"></div>
                         </div>
                     </div>
-                    <div class="form-group"><label for="password" style="font-size: 14px;">Password Check</label>
+                    <div class="form-group"><label for="password_check" style="font-size: 14px;">Password Check</label>
                         <div class="input-group">
                             <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-unlock-alt" style="width: 16px;"></i></span></div><input class="form-control" id="password_check" type="password" placeholder="Password Check" style="font-size: 14px;" name="password2" required="" minlength="8" maxlength="30">
                             <div class="input-group-append"></div>
