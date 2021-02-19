@@ -5,7 +5,6 @@ from django.forms.utils import ErrorList
 from django.http import HttpResponse
 from .forms import LoginForm, SignUpForm, SearchForm
 from verify_email.email_handler import send_verification_email
-from django.contrib.auth.forms import UserCreationForm
 
 def login_view(request):
     form = LoginForm(request.POST or None)

@@ -15,6 +15,15 @@ import os
 from decouple import config
 # from unipath import Path
 
+import environ
+env = environ.Env(
+    # set casting, default value
+    DEBUG=(bool, False)
+)
+
+# reading .env file
+environ.Env.read_env()
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -23,10 +32,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '#f7n@u1z_ehsj1#((jgl!5#%^dul#jc(e4#(v)sfc27lp*0p^2'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = ['*']
 
@@ -134,18 +143,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-# EMAIL_HOST_USER = os.environ.get('EMAIL_ID') 
-# EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PW')
-EMAIL_HOST_USER = 'testmailing978@gmail.com' 
-EMAIL_HOST_PASSWORD='testmail978'
+EMAIL_HOST_USER = env('EMAIL_ID') 
+EMAIL_HOST_PASSWORD = env('EMAIL_PW')
 DEFAULT_FROM_EMAIL = 'noreply<no_reply@domain.com>'
 
 LOGIN_URL = 'login'
-
-# EMAIL_FIELD_NAME = 'email'
-
-# HTML_MESSAGE_TEMPLATE = "path/to/html_template.html"
-
-# VERIFICATION_SUCCESS_TEMPLATE = "path/to/success.html"
-
-# VERIFICATION_FAILED_TEMPLATE = "path/to/failed.html"
