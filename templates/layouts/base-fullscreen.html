@@ -1,50 +1,91 @@
-
 <!DOCTYPE html>
 <html lang="en">
-
-<head> 
+  <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
-<!-- Primary Meta Tags -->
-<title>
-    KGPExpress - {% block title %}{% endblock %}
-</title>
+    <!-- Primary Meta Tags -->
+    <title>KGPExpress - {% block title %}{% endblock %}</title>
 
-    <link rel="stylesheet" href="/static/assets/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,400i,700,700i,600,600i">
-    <link rel="stylesheet" href="/static/assets/fonts/simple-line-icons.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.css">
-    <link rel="stylesheet" href="/static/assets/css/smoothproducts.css">
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link
+      rel="stylesheet"
+      href="/static/assets/bootstrap/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Montserrat:400,400i,700,700i,600,600i"
+    />
+    <link
+      rel="stylesheet"
+      href="/static/assets/fonts/simple-line-icons.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.css"
+    />
+    <link rel="stylesheet" href="/static/assets/css/smoothproducts.css" />
+    <link
+      href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+      rel="stylesheet"
+    />
 
     <!-- Specific Page CSS goes HERE  -->
     {% block stylesheets %}{% endblock stylesheets %}
+  </head>
 
-</head> 
-<body class="{% block body_class %}{% endblock body_class %}">
-    <nav class="navbar navbar-light navbar-expand-lg fixed-top bg-white clean-navbar" style="box-shadow: 0px 0px 5px 0px var(--dark);">
-        <div class="container"><a class="navbar-brand logo" href="/">KGPExpress</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
-            <div class="collapse navbar-collapse" id="navcol-1">
-                <ul class="nav navbar-nav ml-auto">
-                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/pricing">Instructions</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/about-us">About Us</a></li>
-                    <li class="nav-item"><a class="nav-link text-primary active" href="/login">Log in</a></li>
-                </ul>
-            </div>
+  <body class="{% block body_class %}{% endblock body_class %}">
+    <nav
+      class="navbar navbar-light navbar-expand-lg fixed-top bg-white clean-navbar"
+      style="box-shadow: 0px 0px 5px 0px var(--dark)"
+    >
+      <div class="container">
+        <a class="navbar-brand logo" href="/">KGPExpress</a
+        ><button
+          data-toggle="collapse"
+          class="navbar-toggler"
+          data-target="#navcol-1"
+        >
+          <span class="sr-only">Toggle navigation</span
+          ><span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navcol-1">
+          <ul class="nav navbar-nav ml-auto">
+            <li id="home" class="nav-item">
+              <a class="nav-link" href="/">Home</a>
+            </li>
+            <li id="instructions" class="nav-item">
+              <a class="nav-link" href="/pricing">Instructions</a>
+            </li>
+            <li id="about_us" class="nav-item">
+              <a class="nav-link" href="/about-us">About Us</a>
+            </li>
+            <li id="login" class="nav-item">
+              <a class="nav-link text-primary active" href="/login">Log in</a>
+            </li>
+          </ul>
         </div>
+      </div>
     </nav>
-
-
-
 
     {% block content %}{% endblock content %}
 
-
-
-
     <footer class="page-footer dark">
-        <div class="container">
+      <div class="container">
+        <div class="row" style="align-items: center; text-align: center;">
+          <div class="col-sm-3">
+            <h5>Get started</h5>
+          </div>
+          <div class="col-sm-3">
+            <h5>About Us</h5>
+          </div>
+          <div class="col-sm-3">
+            <h5>Login</h5>
+          </div>
+          <div class="col-sm-3">
+            <h5>Sign Up</h5>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="container">
             <div class="row">
                 <div class="col-sm-3">
                     <h5>Get started</h5>
@@ -79,19 +120,16 @@
                     </ul>
                 </div>
             </div>
-        </div>
-        <div class="footer-copyright">
-            <p>© 2021 Copyright Text</p>
-        </div>
+        </div> -->
+      <div class="footer-copyright">
+        <p>© 2021 Copyright Text</p>
+      </div>
     </footer>
 
+    {% include 'includes/scripts.html' %}
 
-
-
-    {% include 'includes/scripts.html' %}    
-    
+    <script src="/static/assets/js/base_fullscreen.js"></script>
     <!-- Specific Page JS goes HERE  -->
     {% block javascripts %}{% endblock javascripts %}
-
-</body>
+  </body>
 </html>

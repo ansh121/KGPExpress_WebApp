@@ -3,3 +3,6 @@
 /core/temp.py
 */__pycache__/
 *.sqlite3
+test.html
+*.bak
+/.vscode/
