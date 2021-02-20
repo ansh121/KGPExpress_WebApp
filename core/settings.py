@@ -23,7 +23,7 @@ env = environ.Env(
 )
 
 # reading .env file
-environ.Env.read_env(env_file='.env')
+# environ.Env.read_env(env_file='.env')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -95,7 +95,7 @@ DATABASES = {
         'NAME': env('DATABASE_NAME'),
         'USER': env('DATABASE_USER'),
         'PASSWORD': env('DATABASE_PW'),
-        'HOST': 'localhost',
+        'HOST': env('DATABASE_HOST'),
         'PORT': '',
     }
 }
