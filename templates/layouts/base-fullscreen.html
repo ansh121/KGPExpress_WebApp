@@ -32,34 +32,35 @@
     {% block stylesheets %}{% endblock stylesheets %}
   </head>
 
-  <body class="{% block body_class %}{% endblock body_class %}">
+  <body class="{% block body_class %}{% endblock body_class %}" style="font-size: small;">
     <nav
       class="navbar navbar-light navbar-expand-lg fixed-top bg-white clean-navbar"
-      style="box-shadow: 0px 0px 5px 0px var(--dark)"
+      style="box-shadow: 0px 0px 5px 0px var(--dark);padding: 8px;"
+      
     >
       <div class="container">
-        <a class="navbar-brand logo" href="/">KGPExpress</a
-        ><button
+        <a class="navbar-brand logo" href="/">KGPExpress</a>
+        <button
           data-toggle="collapse"
           class="navbar-toggler"
           data-target="#navcol-1"
         >
-          <span class="sr-only">Toggle navigation</span
-          ><span class="navbar-toggler-icon"></span>
+          <span class="sr-only">Toggle navigation</span>
+          <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navcol-1">
           <ul class="nav navbar-nav ml-auto">
-            <li id="home" class="nav-item">
-              <a class="nav-link" href="/">Home</a>
+            <li class="nav-item">
+              <a id="home" class="nav-link" href="/">Home</a>
             </li>
-            <li id="instructions" class="nav-item">
-              <a class="nav-link" href="/pricing">Instructions</a>
+            <li class="nav-item">
+              <a id="instructions" class="nav-link" href="/pricing">Instructions</a>
             </li>
-            <li id="about_us" class="nav-item">
-              <a class="nav-link" href="/about-us">About Us</a>
+            <li class="nav-item">
+              <a id="about_us" class="nav-link" href="/about-us">About Us</a>
             </li>
-            <li id="login" class="nav-item">
-              <a class="nav-link text-primary active" href="/login">Log in</a>
+            <li class="nav-item">
+              <a id="login" class="nav-link text-primary active" href="/login">Log in</a>
             </li>
           </ul>
         </div>
@@ -68,9 +69,9 @@
 
     {% block content %}{% endblock content %}
 
-    <footer class="page-footer dark">
+    <footer class="page-footer dark" >
       <div class="container">
-        <div class="row" style="align-items: center; text-align: center;">
+        <div class="row" style="align-items: center; text-align: center">
           <div class="col-sm-3">
             <h5>Get started</h5>
           </div>
@@ -122,7 +123,7 @@
             </div>
         </div> -->
       <div class="footer-copyright">
-        <p>© 2021 Copyright Text</p>
+        <p>© 2021 Copyright</p>
       </div>
     </footer>
 

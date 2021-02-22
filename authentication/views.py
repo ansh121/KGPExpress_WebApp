@@ -5,6 +5,10 @@ from django.forms.utils import ErrorList
 from django.http import HttpResponse
 from .forms import LoginForm, SignUpForm, SearchForm
 from verify_email.email_handler import send_verification_email
+from validate_email import validate_email
+
+import environ
+env = environ.Env()
 
 def login_view(request):
     form = LoginForm(request.POST or None)
@@ -53,13 +57,19 @@ def register_user(request):
                 # msg = 'User created - please <a href="/login">login</a>.'
                 # success = True
 
-                inactive_user = send_verification_email(request, form)
-                # print(inactive_user)
-                if inactive_user:
-                    msg = "verification sent"
-                    success = True
+                # is_valid = validate_email(email_address=form.cleaned_data.get("email"), check_mx=True)
+                # is_valid = validate_email(form.cleaned_data.get("email"), verify=True)
+                is_valid=True
+                if(is_valid==False):
+                    msg="Email does not exist!"
                 else:
-                    msg = "Unable to send verification mail!"
+                    inactive_user = send_verification_email(request, form)
+                    # print(inactive_user)
+                    if inactive_user:
+                        msg = "verification sent"
+                        success = True
+                    else:
+                        msg = "Unable to send verification mail!"
 
                 # return redirect("/login/")
 

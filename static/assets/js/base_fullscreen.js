@@ -1,14 +1,27 @@
 // $('title').innertext.equals("KGPExpress - Home"){
-//     console.log("found it");
-//     $('#home').wrapInner("<strong />");
+//     $('#home').addClass('active');
 // };
 
-// $('title').html(functiom(){
-//     if(this.innertext==="KGPExpress - Home"){
-//         $('#home').wrapInner("<strong />");
+// $('title').html(function(){
+//     console.log("first");
+//     if(this[0].text==="KGPExpress - Home"){
+//         console.log("second");
+//         $('#home').addClass('active');
 //     }
 // });
 
 if($('title')[0].text==="KGPExpress - Home"){
-    $('#home').addAtt
+    $('#home').addClass('active');
 }
+else if($('title')[0].text==="KGPExpress - Log In"){
+    $('#login').addClass('active');
+}
+else if($('title')[0].text==="KGPExpress - Instructions"){
+    $('#instructions').addClass('active');
+}
+else if($('title')[0].text==="KGPExpress - About Us"){
+    $('#about_us').addClass('active');
+}
+// else if($('title')[0].text==="KGPExpress - "){
+//     $('#').addClass('active');
+// }
