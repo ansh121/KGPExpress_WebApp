@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'verify_email',
     'whitenoise.runserver_nostatic',
+    'authentication.apps.AuthenticationConfig',
 ]
 
 MIDDLEWARE = [
