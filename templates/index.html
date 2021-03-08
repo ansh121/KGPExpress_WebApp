@@ -1,4 +1,5 @@
-{% extends "layouts/base-fullscreen.html" %} {% block title %}Home{% endblock %}
+{% extends "layouts/base-fullscreen.html" %} 
+{% block title %}Home{% endblock %}
 
 <!-- Specific Page CSS goes HERE  -->
 {% block stylesheets %}
@@ -14,6 +15,7 @@
 
 {% block body_class %} 
 {%endblock body_class %} 
+
 
 {%block content %}
 
@@ -91,9 +93,14 @@
         </div>
       </form>
     </div>
-  </section>
+        <div class="clearfix">
+            <a class="btn btn-info left" href="{% url 'authentication:calendar' %}?{{ prev_month }}"> Previous Month </a>
+            <a class="btn btn-info right" href="{% url 'authentication:calendar' %}?{{ next_month }}"> Next Month </a>
+            <a class="btn btn-info right" href="{% url 'authentication:event_new' %}"> New Event </a>
+        </div>
+        {{ calendar }}
+    </section>
 </main>
-
 {% endblock content %}
 
 <!-- Specific Page JS goes HERE  -->
