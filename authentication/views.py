@@ -3,9 +3,9 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.forms.utils import ErrorList
 from django.http import HttpResponse
-from .forms import LoginForm, SignUpForm, SearchForm
+from .forms import LoginForm, SignUpForm
 from verify_email.email_handler import send_verification_email
-from validate_email import validate_email
+# from validate_email import validate_email
 
 import environ
 env = environ.Env()
@@ -87,11 +87,3 @@ def register_user(request):
         form = SignUpForm()
 
     return render(request, "accounts/register.html", {"form": form, "msg": msg, "success": success})
-
-def home(request):
-    # if request.method == "POST":
-    form = SearchForm(request.POST or None)
-    if form.is_valid():
-        print(form.cleaned_data.items())
-        print(request.POST)
-    return render(request, "index.html", {"form": form})

@@ -1,5 +1,4 @@
-$.getJSON("/static/assets/data/subject-list.json",
-    function (data, textStatus, jqXHR) {
+$.getJSON("/static/assets/data/subject-list.json", function (data, textStatus, jqXHR) {
         var options = "";
         $.each(data, function (key, val) { 
             options += '<option value="' + val['value'] +' - '+ val['text'] + '" />';
@@ -7,6 +6,6 @@ $.getJSON("/static/assets/data/subject-list.json",
 
         // $("#subject-list").innerHTML = options;
         document.getElementById('subject-list').innerHTML = options;
-        console.log(options);
+        // console.log(options);
     }
 );
