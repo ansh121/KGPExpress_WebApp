@@ -1,5 +1,4 @@
-{% extends "layouts/base-fullscreen.html" %} 
-{% block title %}Home{% endblock %}
+{% extends "layouts/base-fullscreen.html" %} {% block title %}Home{% endblock %}
 
 <!-- Specific Page CSS goes HERE  -->
 {% block stylesheets %}
@@ -11,17 +10,12 @@
   href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css"
   rel="stylesheet"
 />
-{% endblock stylesheets %} 
-
-{% block body_class %} 
-{%endblock body_class %} 
-
-
+{% endblock stylesheets %} {% block body_class %} {%endblock body_class %}
 {%block content %}
 
 <main class="page landing-page" style="padding-top: 50px">
-  <section class="clean-block payment-form dark">
-    <div class="container" style="padding: 25px">
+  <section class="clean-block payment-form dark" style="padding-bottom: 10px;">
+    <div class="container" style="padding-top: 25px">
       <form name="form" method="get" action="" style="max-width: 100%">
         {% csrf_token %}
 
@@ -93,13 +87,35 @@
         </div>
       </form>
     </div>
-        <div class="clearfix">
-            <a class="btn btn-info left" href="{% url 'authentication:calendar' %}?{{ prev_month }}"> Previous Month </a>
-            <a class="btn btn-info right" href="{% url 'authentication:calendar' %}?{{ next_month }}"> Next Month </a>
-            <a class="btn btn-info right" href="{% url 'authentication:event_new' %}"> New Event </a>
-        </div>
-        {{ calendar }}
-    </section>
+  </section>
+  
+  <section class="clean-block dark" >
+    <div class="container shadow" style="background-color: white; padding: 5px;">
+      <!-- <div class="container" > -->
+      <div class="clearfix">
+        <a
+          class="btn btn-primary left"
+          href="{% url 'authentication:calendar' %}?{{ prev_month }}"
+        >
+          Previous Month
+        </a>
+        <a
+          class="btn btn-primary right"
+          href="{% url 'authentication:calendar' %}?{{ next_month }}"
+        >
+          Next Month
+        </a>
+        <a
+          class="btn btn-warning right"
+          href="{% url 'authentication:event_new' %}"
+          style="margin-right: 10px"
+        >
+          New Event
+        </a>
+      </div>
+      {{ calendar }}
+    </div>
+  </section>
 </main>
 {% endblock content %}
 
