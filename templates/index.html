@@ -95,19 +95,19 @@
       <div class="clearfix">
         <a
           class="btn btn-primary left"
-          href="{% url 'authentication:calendar' %}?{{ prev_month }}"
+          href="{% url 'app:calendar' %}?{{ prev_month }}"
         >
           Previous Month
         </a>
         <a
           class="btn btn-primary right"
-          href="{% url 'authentication:calendar' %}?{{ next_month }}"
+          href="{% url 'app:calendar' %}?{{ next_month }}"
         >
           Next Month
         </a>
         <a
           class="btn btn-warning right"
-          href="{% url 'authentication:event_new' %}"
+          href="{% url 'app:event_new' %}"
           style="margin-right: 10px"
         >
           New Event
