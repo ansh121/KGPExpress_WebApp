@@ -5,7 +5,7 @@ from django.forms.utils import ErrorList
 from django.http import HttpResponse
 from .forms import LoginForm, SignUpForm
 from verify_email.email_handler import send_verification_email
-from validate_email import validate_email
+# from validate_email import validate_email
 
 import environ
 env = environ.Env()
