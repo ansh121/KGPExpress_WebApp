@@ -168,4 +168,4 @@ EMAIL_HOST_USER = env('EMAIL_ID')
 EMAIL_HOST_PASSWORD = env('EMAIL_PW')
 DEFAULT_FROM_EMAIL = 'noreply<no_reply@domain.com>'
 
-LOGIN_URL = 'login'
+LOGIN_URL = 'authentication:login'

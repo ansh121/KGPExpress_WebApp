@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.forms.utils import ErrorList
 from django.http import HttpResponse
 from .forms import SearchForm
+from django.contrib.auth.decorators import login_required
 
 from datetime import datetime, timedelta, date
 from django.shortcuts import render, get_object_or_404
@@ -91,3 +92,7 @@ def event(request, event_id=None):
         form.save()
         return HttpResponseRedirect(reverse('app:calendar'))
     return render(request, 'event.html', {'form': form})
+
+@login_required
+def userhome(request):
+    return render(request, 'userindex.html')
