@@ -36,19 +36,25 @@ class HomeView(generic.ListView):
 
     # template_name = 'authentication/modified_calendar.html'
 
+    def process_search(self, search_dict):
+        return True
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         d = get_date(self.request.GET.get('month', None))
         cal = Calendar(d.year, d.month)
-        form = SearchForm(self.request.POST or None)
+
+        form = SearchForm(self.request.GET or None)
         if form.is_valid():
-            print(form.cleaned_data.items())
-            print(self.request.POST)
+            search_dict=form.cleaned_data.items()
+            print(search_dict)
+            
         html_cal = cal.formatmonth(withyear=True)
         context['calendar'] = mark_safe(html_cal)
         context['prev_month'] = prev_month(d)
         context['next_month'] = next_month(d)
         context['form'] = form
+        print(context)
         return context
 
 def get_date(req_month):
