@@ -1,6 +1,7 @@
 from django import forms
 from django.forms import ModelForm, DateInput
 from app.models import Event
+from authentication.models import CustomUser
 
 class SearchForm(forms.Form):
     subject = forms.CharField()
