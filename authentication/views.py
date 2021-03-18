@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 from django.forms.utils import ErrorList
 from django.http import HttpResponse
 from .forms import LoginForm, SignUpForm
 from verify_email.email_handler import send_verification_email
+from authentication.models import CustomUser
 # from validate_email import validate_email
 
 import environ
@@ -41,7 +42,7 @@ def register_user(request):
     if request.method == "POST":
         form = SignUpForm(request.POST)
         try:
-            invalid_user = User.objects.get(username=request.POST['username'])
+            invalid_user = CustomUser.objects.get(username=request.POST['username'])
             if invalid_user.is_active==False:
                 invalid_user.delete()
         except:
