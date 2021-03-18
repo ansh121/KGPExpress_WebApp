@@ -1,0 +1,29 @@
+{% extends "layouts/base-fullscreen.html" %}
+
+{% block title %}Log In{% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block body_class %} {% endblock body_class %}
+
+{% block content %}
+
+    <main class="page login-page" style="background: url('/static/assets/img/hijli.jpg') top;filter: blur(0px); min-height: 100%;">
+        <section class="clean-block clean-form dark" style="background: transparent;">
+            <div class="container" style="text-align: center;">
+                <div class="card">
+                    <div class="card-body">
+                <h2>You have successfully logged out!</h2><br>
+                    <h5>Thank you for using KGPExpress!</h5>
+                    <p>To login again, please <a href="{% url 'authentication:login' %}">click here</a></p>
+                </div>
+            </div>
+            </div>
+        </section>
+    </main>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

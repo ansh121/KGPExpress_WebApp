@@ -62,13 +62,13 @@
               <a id="home" class="nav-link" href="/">Home</a>
             </li>
             <li class="nav-item">
-              <a id="instructions" class="nav-link" href="/pricing">Instructions</a>
+              <a id="instructions" class="nav-link" href="{% url 'app:instructions' %}">Instructions</a>
             </li>
             <li class="nav-item">
-              <a id="about_us" class="nav-link" href="/about-us">About Us</a>
+              <a id="about_us" class="nav-link" href="{% url 'app:about_us' %}">About Us</a>
             </li>
             <li class="nav-item">
-              <a id="login" class="nav-link text-primary active" href="/login">Log in</a>
+              <a id="login" class="nav-link text-primary active" href="{% url 'authentication:login' %}">Log in</a>
             </li>
           </ul>
         </div>

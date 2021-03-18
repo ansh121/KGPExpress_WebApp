@@ -93,6 +93,16 @@ def event(request, event_id=None):
         return HttpResponseRedirect(reverse('app:calendar'))
     return render(request, 'event.html', {'form': form})
 
+def instructions(request):
+    return render(request, 'instructions.html')
+
+def about_us(request):
+    return render(request, 'about_us.html')
+
+@login_required
+def my_subjects(request):
+    return render(request, 'my_subjects.html')
+
 @login_required
 def userhome(request):
     return render(request, 'userindex.html')

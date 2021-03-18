@@ -47,7 +47,7 @@
 
     >
       <div class="container">
-        <a class="navbar-brand logo" href="/">KGPExpress</a>
+        <a class="navbar-brand logo" href="{% url 'app:userhome' %}">KGPExpress</a>
         <button
           data-toggle="collapse"
           class="navbar-toggler"
@@ -59,16 +59,19 @@
         <div class="collapse navbar-collapse" id="navcol-1">
           <ul class="nav navbar-nav ml-auto">
             <li class="nav-item">
-              <a id="home" class="nav-link" href="/">Home</a>
+              <a id="home" class="nav-link" href="{% url 'app:userhome' %}">Home</a>
             </li>
             <li class="nav-item">
-              <a id="instructions" class="nav-link" href="/pricing">Instructions</a>
+              <a id="my_subjects" class="nav-link" href="{% url 'app:my_subjects' %}">My Subjects</a>
             </li>
             <li class="nav-item">
-              <a id="about_us" class="nav-link" href="/about-us">About Us</a>
+              <a id="instructions" class="nav-link" href="{% url 'app:instructions' %}">Instructions</a>
             </li>
             <li class="nav-item">
-              <a id="login" class="nav-link text-primary active" href="/login">Log in</a>
+              <a id="about_us" class="nav-link" href="{% url 'app:about_us' %}">About Us</a>
+            </li>
+            <li class="nav-item">
+              <a id="login" class="nav-link text-primary active" href="{% url 'authentication:login' %}">Log in</a>
             </li>
           </ul>
         </div>
