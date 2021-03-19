@@ -122,3 +122,7 @@ def my_subjects(request):
 @login_required
 def userhome(request):
     return render(request, 'userindex.html')
+
+@login_required
+def profile(request):
+    return render(request, 'accounts/profile.html')
