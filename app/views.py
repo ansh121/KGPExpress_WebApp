@@ -22,40 +22,53 @@ import environ
 
 env = environ.Env()
 
-# def home(request):
-#     # if request.method == "POST":
-#     form = SearchForm(request.POST or None)
-#     if form.is_valid():
-#         print(form.cleaned_data.items())
-#         print(request.POST)
-#     return render(request, "index.html", {"form": form})
-
-
 class HomeView(generic.ListView):
     model = Event
+    #model_2 = Subject
     template_name = 'index.html'
 
     # template_name = 'authentication/modified_calendar.html'
-
-    def process_search(self, search_dict):
-        return True
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         d = get_date(self.request.GET.get('month', None))
+        # form = post(self)
         cal = Calendar(d.year, d.month)
-
         form = SearchForm(self.request.GET or None)
+        subList = []
         if form.is_valid():
-            search_dict=form.cleaned_data.items()
-            print(search_dict)
-            
-        html_cal = cal.formatmonth(withyear=True)
+            query_code, query_name = (x for x in form.cleaned_data['subject'].split('-'))
+            query_code = query_code.strip()
+            query_year = form.cleaned_data['year']
+            query_sem = form.cleaned_data['semester']
+
+            try:
+                subject = Subject.objects.get(subject_code=query_code, semester=query_sem, year=query_year)
+                subList.append(subject)
+
+            except Subject.DoesNotExist:
+                subject = None
+                print("Subject Entry does not exist")
+        else:
+            print(form.errors)
+
+        # sub = Subject()
+        # sub.year = 2020
+        # sub.description = 'aa'
+        # sub.subject_name = 'ENGINEERING LABORATORY'
+        # sub.department = 'CS'
+        # sub.semester = 'Autumn'
+        # sub.subject_code = 'EN19003'
+        # sub.subject_id = '2'
+        # sub.syllabus = 'daa'
+        # sub.teacher_name = 'V'
+        # sub.save()
+
+        html_cal = cal.formatmonth(withyear=True,subList=subList)
         context['calendar'] = mark_safe(html_cal)
         context['prev_month'] = prev_month(d)
         context['next_month'] = next_month(d)
         context['form'] = form
-        print(context)
+        #print(context)
         return context
 
 def get_date(req_month):
@@ -86,7 +99,10 @@ def event(request, event_id=None):
         instance = get_object_or_404(Event, pk=event_id)
     else:
         instance = Event()
-
+    c_user = CustomUser.objects.get(username='nilesh')
+    sub = Subject.objects.get(year=2020)
+    instance.user = c_user
+    instance.subject = sub
     form = EventForm(request.POST or None, instance=instance)
     if request.POST and form.is_valid():
         form.save()
