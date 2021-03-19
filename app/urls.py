@@ -13,4 +13,5 @@ urlpatterns = [
     path('instructions/', views.instructions, name='instructions'),
     path('about_us/', views.about_us, name='about_us'),
     path('my_subjects/', views.my_subjects, name='my_subjects'),
+    path('user/profile/', views.profile, name='profile'),
 ]
