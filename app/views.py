@@ -102,13 +102,14 @@ def event(request, event_id=None):
     else:
         instance = Event()
     
+    c_user = CustomUser.objects.get(username='nilesh')
+    sub = Subject.objects.get(year=2020)
+    instance.user = c_user
+    instance.subject = sub
+    
     form = EventForm(request.POST or None, instance=instance)
     print(form.data)
     if request.POST and form.is_valid():
-        c_user = CustomUser.objects.get(username='nilesh')
-        sub = Subject.objects.get(year=2020)
-        instance.user = c_user
-        instance.subject = sub
         form.save()
         return HttpResponseRedirect(reverse('app:calendar'))
     return render(request, 'event.html', {'form': form})

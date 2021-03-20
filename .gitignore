@@ -8,3 +8,9 @@ test.html
 /.vscode/
 .env
 **/migrations/__pycache__
+app/management/commands/loadsubjecttable.py
+app/migrations/0002_subject_ltp.py
+app/migrations/0003_subject_credit.py
+app/migrations/0004_auto_20210321_0147.py
+app/migrations/0005_auto_20210321_0153.py
+app/migrations/0006_auto_20210321_0225.py

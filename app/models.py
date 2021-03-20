@@ -4,12 +4,14 @@ from authentication.models import CustomUser
 
 class Subject(models.Model):
     subject_code = models.CharField(max_length=7)
-    subject_name = models.CharField(max_length=100)
+    subject_name = models.CharField(max_length=120)
     teacher_name = models.CharField(max_length=100,blank=True)
     description = models.CharField(max_length=1000,blank=True)
     department = models.CharField(max_length=100)
-    syllabus = models.CharField(max_length=2000,blank=True)
+    syllabus = models.TextField(blank=True)
     year = models.DecimalField(max_digits=4, decimal_places=0)
+    ltp = models.CharField(max_length=10)
+    credit = models.IntegerField()
     semester = models.CharField(max_length=10)
     subject_id = models.AutoField(primary_key=True)
 
