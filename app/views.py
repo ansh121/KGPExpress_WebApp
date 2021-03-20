@@ -25,7 +25,7 @@ env = environ.Env()
 class HomeView(generic.ListView):
     model = Event
     #model_2 = Subject
-    template_name = 'index.html'
+    # template_name = 'index.html'
 
     # template_name = 'authentication/modified_calendar.html'
     def get_context_data(self, **kwargs):
@@ -40,6 +40,7 @@ class HomeView(generic.ListView):
             query_code = query_code.strip()
             query_year = form.cleaned_data['year']
             query_sem = form.cleaned_data['semester']
+            context['subject'] = form.cleaned_data['subject']
 
             try:
                 subject = Subject.objects.get(subject_code=query_code, semester=query_sem, year=query_year)
@@ -67,8 +68,9 @@ class HomeView(generic.ListView):
         context['calendar'] = mark_safe(html_cal)
         context['prev_month'] = prev_month(d)
         context['next_month'] = next_month(d)
-        context['form'] = form
+        # context['form'] = form
         #print(context)
+        print(form)
         return context
 
 def get_date(req_month):
@@ -92,22 +94,25 @@ def next_month(d):
     month = 'month=' + str(next_month.year) + '-' + str(next_month.month)
     return month
 
-
+@login_required
 def event(request, event_id=None):
     instance = Event()
     if event_id:
         instance = get_object_or_404(Event, pk=event_id)
     else:
         instance = Event()
-    c_user = CustomUser.objects.get(username='nilesh')
-    sub = Subject.objects.get(year=2020)
-    instance.user = c_user
-    instance.subject = sub
+    
     form = EventForm(request.POST or None, instance=instance)
+    print(form.data)
     if request.POST and form.is_valid():
+        c_user = CustomUser.objects.get(username='nilesh')
+        sub = Subject.objects.get(year=2020)
+        instance.user = c_user
+        instance.subject = sub
         form.save()
         return HttpResponseRedirect(reverse('app:calendar'))
     return render(request, 'event.html', {'form': form})
+
 
 def instructions(request):
     return render(request, 'instructions.html')
@@ -121,7 +126,8 @@ def my_subjects(request):
 
 @login_required
 def userhome(request):
-    return render(request, 'userindex.html')
+    return HomeView.as_view(template_name='userindex.html')(request)
+    # return render(request, 'userindex.html')
 
 @login_required
 def profile(request):

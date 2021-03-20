@@ -90,28 +90,31 @@
   </section>
   
   <section class="clean-block dark" >
-    <div class="container shadow" style="background-color: white; padding: 5px;">
+    <div class="container card shadow round" style="background-color: white; padding: 5px;">
       <!-- <div class="container" > -->
       <div class="clearfix">
+        {% if subject %}
+          <h6 class="text-center" >{{ subject }}</h6>
+        {% endif %}
         <a
-          class="btn btn-primary left"
+          class="btn btn-outline-primary btn-sm left"
           href="{% url 'app:calendar' %}?{{ prev_month }}"
         >
           Previous Month
         </a>
         <a
-          class="btn btn-primary right"
+          class="btn btn-outline-primary btn-sm right"
           href="{% url 'app:calendar' %}?{{ next_month }}"
         >
           Next Month
         </a>
-        <a
-          class="btn btn-warning right"
+        <!-- <a
+          class="btn btn-outline-success btn-sm right"
           href="{% url 'app:event_new' %}"
           style="margin-right: 10px"
         >
           New Event
-        </a>
+        </a> -->
       </div>
       {{ calendar }}
     </div>

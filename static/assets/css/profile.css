@@ -1,0 +1,10 @@
+#tab ul > li {
+    border-bottom: 1px solid #ebeae6;
+    margin-top: 0;
+    line-height: 30px;
+    width: 100%;
+    float: none;
+    position: relative;
+    display: block;
+    box-sizing: border-box;
+}
