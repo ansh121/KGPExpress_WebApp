@@ -95,17 +95,23 @@
       </form>
     </div>
   </section>
-
-    <div id='calendar'></div>
-    <div style='clear:both'></div>
     
   <section class="clean-block dark" >
-    <div class="container card shadow round" style="background-color: white; padding: 5px;">
+    
+    <div class="container card shadow round" style="background-color: white; padding: 0px;">
       <!-- <div class="container" > -->
-      <div class="clearfix">
         {% if subject %}
-          <h6 class="text-center" >{{ subject }}</h6>
+        <!-- <div class="card-body"> -->
+          <h5 class="title" style="padding: 8px;">{{ subject }}</h5>
+        <!-- </div> -->
         {% endif %}
+      <div class="dark" style="border-width: 2px;border-color: aqua;">
+        <div id='calendar' style="width: 95%;"></div>
+      <div style='clear:both'></div>
+      </div>
+      
+      <div class="clearfix">
+        
         <a
           class="btn btn-outline-primary btn-sm left"
           href="{% url 'app:calendar' %}?{{ prev_month }}"
@@ -134,6 +140,11 @@
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
+<script>
+  var event_list = String("{{ event }}").replace(/&quot;/g,'"');
+  
+  // console.log(event_list)
+</script>
 <script src="https://cdn.jsdelivr.net/gh/xcash/bootstrap-autocomplete@master/dist/latest/bootstrap-autocomplete.min.js"></script>
 <script src="/static/assets/js/index.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
