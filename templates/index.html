@@ -141,9 +141,11 @@
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
 <script>
-  var event_list = String("{{ event }}").replace(/&quot;/g,'"');
-  
-  // console.log(event_list)
+  var data = String("{{ event }}");
+  var event_list = eval(data.replace(/&quot;/g,'"'));
+
+  {#console.log(data)#}
+  {#console.log(event_list)#}
 </script>
 <script src="https://cdn.jsdelivr.net/gh/xcash/bootstrap-autocomplete@master/dist/latest/bootstrap-autocomplete.min.js"></script>
 <script src="/static/assets/js/index.js"></script>

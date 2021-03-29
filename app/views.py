@@ -19,6 +19,7 @@ from .utils import Calendar
 from .forms import EventForm
 
 import environ
+import json
 
 env = environ.Env()
 
@@ -45,7 +46,6 @@ class HomeView(generic.ListView):
             try:
                 subject = Subject.objects.get(subject_code=query_code, semester=query_sem, year=query_year)
                 subList.append(subject)
-
             except Subject.DoesNotExist:
                 subject = None
                 print("Subject Entry does not exist")
@@ -62,16 +62,32 @@ class HomeView(generic.ListView):
         # sub.subject_id = '2'
         # sub.syllabus = 'daa'
         # sub.teacher_name = 'V'
+        # sub.ltp ='2-0-1'
+        # sub.credit = '4'
         # sub.save()
-
-        html_cal = cal.formatmonth(withyear=True,subList=subList)
-        context['calendar'] = mark_safe(html_cal)
-        context['prev_month'] = prev_month(d)
-        context['next_month'] = next_month(d)
-        context['event'] = "[{  \"title\": \"All Day Event\",  \"start\": new Date(y, m, 1)},{  \"id\": 999,  \"title\": \"Repeating Event\",  \"start\": new Date(y, m, d-3, 16, 0),  \"allDay\": false,  \"className\": \"info\"},{  \"id\": 999,  \"title\": \"Repeating Event\",  \"start\": new Date(y, m, d+4, 16, 0),  \"allDay\": false,  \"className\": \"info\"},{  \"title\": \"Meeting\",  \"start\": new Date(y, m, d, 10, 30),  \"allDay\": false,  \"className\": \"important\"},{  \"title\": \"Lunch\",  \"start\": new Date(y, m, d, 12, 0),  \"end\": new Date(y, m, d, 14, 0),  \"allDay\": false,  \"className\": \"important\"},{  \"title\": \"Birthday Party\",  \"start\": new Date(y, m, d+1, 19, 0),  \"end\": new Date(y, m, d+1, 22, 30),  \"allDay\": \"false\"},{  \"title\": \"Click for Google\",  \"start\": new Date(y, m, 28),  \"end\": new Date(y, m, 29),  \"url\": \"http://google.com/\",  \"className\": \"success\"}]"
+        eventList = []
+        events = Event.objects.filter(subject__in = subList)
+        eventStr = "["
+        for ev in events:
+            eventStr += "{  "
+            eventStr += "\"title\": \"{event_name}\",  ".format(event_name=ev.event_name)
+            eventStr += "\"start\": new Date({yy}, {mm}, {dd}, {hh}, {min}),  ".format(yy=ev.start_time.year,mm=ev.start_time.month - 1,dd=ev.start_time.day,hh=ev.start_time.hour,min=ev.start_time.minute)
+            eventStr += "\"end\": new Date({yy}, {mm}, {dd}, {hh}, {min}),  ".format(yy=ev.end_time.year,mm=ev.end_time.month - 1,dd=ev.end_time.day,hh=ev.end_time.hour,min=ev.end_time.minute)
+            eventStr += "\"id\": {event_id},  ".format(event_id=ev.event_id)
+            eventStr += "\"allDay\": false,  "
+            eventStr += "\"className\": \"success\""
+            eventStr += "},"
+        eventStr += "]"
+        # html_cal = cal.formatmonth(withyear=True,subList=subList)
+        # context['calendar'] = mark_safe(html_cal)
+        # context['prev_month'] = prev_month(d)
+        # context['next_month'] = next_month(d)
+        # context['event'] = "[{  \"title\": \"All Day Event\",  \"start\": new Date(y, m, 1)},{  \"id\": 999,  \"title\": \"Repeating Event\",  \"start\": new Date(y, m, d-3, 16, 0),  \"allDay\": false,  \"className\": \"info\"},{  \"id\": 999,  \"title\": \"Repeating Event\",  \"start\": new Date(y, m, d+4, 16, 0),  \"allDay\": false,  \"className\": \"info\"},{  \"title\": \"Meeting\",  \"start\": new Date(y, m, d, 10, 30),  \"allDay\": false,  \"className\": \"important\"},{  \"title\": \"Lunch\",  \"start\": new Date(y, m, d, 12, 0),  \"end\": new Date(y, m, d, 14, 0),  \"allDay\": false,  \"className\": \"important\"},{  \"title\": \"Birthday Party\",  \"start\": new Date(y, m, d+1, 19, 0),  \"end\": new Date(y, m, d+1, 22, 30),  \"allDay\": \"false\"},{  \"title\": \"Click for Google\",  \"start\": new Date(y, m, 28),  \"end\": new Date(y, m, 29),  \"url\": \"http://google.com/\",  \"className\": \"success\"},]"
+        # eventStr = json.dumps(eventList)
+        context['event'] = eventStr[:-2] + "]"
         context['form'] = form
-        #print(context)
-        print(form)
+        print(context['event'])
+        # print(form)
         return context
 
 def get_date(req_month):
@@ -107,7 +123,8 @@ def event(request, event_id=None):
     sub = Subject.objects.get(year=2020)
     instance.user = c_user
     instance.subject = sub
-    
+    instance.time_of_edit = datetime.now()
+    print(instance.time_of_edit)
     form = EventForm(request.POST or None, instance=instance)
     print(form.data)
     if request.POST and form.is_valid():
