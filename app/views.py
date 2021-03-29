@@ -12,6 +12,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.views import generic
 from django.urls import reverse
 from django.utils.safestring import mark_safe
+from authentication.models import CustomUser
+from authentication.forms import ProfileForm
 import calendar
 
 from .models import *
@@ -132,4 +134,25 @@ def userhome(request):
 
 @login_required
 def profile(request):
+    if "submit_account_information" in request.POST:
+        data = dict(request.POST)
+        initial_data = {'username' : request.user.username}
+        for k,v in data.items():
+            initial_data[k]=v[0]
+        print(initial_data)
+
+        user=CustomUser.objects.update_or_create(initial_data)
+        user.save()
+        
+        # # user = CustomUser.objects.get(user)
+        # profile_form = ProfileForm(initial_data)
+        # # profile_form.cleaned_data['username'] = request.user.username
+        # print(profile_form,profile_form.is_valid(),profile_form.errors)
+        # # profile_form['roll_no']="hello"
+        # # if profile_form.is_valid():
+        # # print(profile_form)
+        # profile_form.save()
+
+        # print(profile_form, profile_form.is_valid()) 
+
     return render(request, 'accounts/profile.html')
