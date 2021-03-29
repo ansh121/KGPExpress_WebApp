@@ -1098,7 +1098,7 @@
                                             class="form-control"
                                             type="text"
                                             id="first_name"
-                                            placeholder="{{ request.user.first_name }}"
+                                            value="{{ request.user.first_name }}"
                                             style="font-size: 14px"
                                             name="first_name"
                                           />
@@ -1123,7 +1123,7 @@
                                             class="form-control"
                                             type="text"
                                             id="last_name"
-                                            placeholder="{{ request.user.last_name}}"
+                                            value="{{ request.user.last_name}}"
                                             style="font-size: 14px"
                                             name="last_name"
                                           />
@@ -1170,10 +1170,11 @@
                                             class="form-control"
                                             id="roll_no"
                                             type="text"
-                                            length="9"
+                                            maxlength="9"
+                                            minlength="9"
                                             style="font-size: 14px"
                                             name="roll_no"
-                                            placeholder="{{ request.user.roll_no}}"
+                                            value="{{ request.user.roll_no}}"
                                           />
                                         </div>
                                       </div>
@@ -1193,7 +1194,7 @@
                                             class="form-control"
                                             type="email"
                                             id="institute_email_id"
-                                            placeholder="{{ request.user.institute_email_id}}"
+                                            value="{{ request.user.institute_email_id}}"
                                             pattern=".+@iitkgp.ac.in"
                                             style="font-size: 14px"
                                             name="institute_email_id"

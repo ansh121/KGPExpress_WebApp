@@ -14,6 +14,7 @@ from django.urls import reverse
 from django.utils.safestring import mark_safe
 from authentication.models import CustomUser
 from authentication.forms import ProfileForm
+from django.core.exceptions import ValidationError
 from django.utils import timezone
 import calendar
 
@@ -187,11 +188,24 @@ def profile(request):
         data = dict(request.POST)
         initial_data = {'username' : request.user.username}
         for k,v in data.items():
-            initial_data[k]=v[0]
+            if v[0]:
+                initial_data[k]=v[0]
         print(initial_data)
 
-        user=CustomUser.objects.update_or_create(initial_data)
-        user.save()
+        # user=CustomUser.objects.update_or_create(initial_data)
+        # user.save()
+        user=CustomUser(initial_data)
+        try:
+            user.full_clean()
+        except ValidationError:
+            # Do something when validation is not passing
+            print(ValidationError)
+        else:
+            # Validation is ok we will save the instance
+            user.save()
+
+        # if user.full_clean():
+        #     user.save()
         
         # # user = CustomUser.objects.get(user)
         # profile_form = ProfileForm(initial_data)
