@@ -57,7 +57,7 @@
 
   <body
     class="{% block body_class %}{% endblock body_class %}"
-    style="font-size: small; background-color: #f6f6f6"
+    style="font-size: small; "
   >
     <nav
       class="navbar navbar-light navbar-expand-lg fixed-top bg-white clean-navbar"
@@ -112,10 +112,11 @@
                 data-toggle="dropdown"
                 aria-haspopup="true"
                 aria-expanded="false"
+                data-target="#profileNavbarDropdown"
               >
                 <i class="fa fa-user-circle fa-2x" aria-hidden="true" style="padding: 0px;"></i>
               </a>
-              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navDropDownLink">
+              <div id="profileNavbarDropdown" class="dropdown-menu dropdown-menu-right" aria-labelledby="navDropDownLink">
                 <a class="dropdown-item" href="{% url 'app:profile' %}">
                   <i class="fa fa-cog" aria-hidden="true"></i> Account Setting</a>
                 <div class="dropdown-divider"></div>

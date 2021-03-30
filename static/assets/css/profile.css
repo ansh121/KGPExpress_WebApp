@@ -1,6 +1,7 @@
 
 body{
-    background:#eee;    
+    /* background:#eee;     */
+    background: #6b6b6b;
 }
 
 .social-wallpaper {
@@ -44,7 +45,7 @@ body{
 
 
 .social-profile {
-    position: relative;
+    /* position: relative; */
     padding-top: 15px;
 }
 
@@ -61,7 +62,7 @@ body{
 }
 
 .social-timeline-left {
-    position: absolute;
+    /* position: absolute; */
     top: -200px;
 }
 
