@@ -13,13 +13,14 @@
 <link rel="stylesheet" href="/static/assets/css/profile.css" />
 {% endblock stylesheets %} {% block body_class %} {%endblock body_class %}
 {%block content %}
+<main class="page" >
 <div class="container">
   <div class="row">
     <div class="col-sm-12">
       <div>
         <div class="content social-timeline">
           <div class="">
-            <div class="row">
+            <!-- <div class="row">
               <div class="col-md-12">
                 <div class="social-wallpaper">
                   <div class="profile-hvr">
@@ -28,7 +29,7 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div> -->
 
             <div class="row">
               <div class="col-xl-3 col-lg-4 col-md-4 col-xs-12">
@@ -39,13 +40,15 @@
                       border-color: #007bff;
                       border-width: 1em;
                       margin-bottom: 2px;
+                      align-items: center;
                     "
                   >
                     <div class="social-profile">
                       <img
-                        class="img-fluid width-100"
+                        class="img-fluid"
                         src="https://bootdey.com/img/Content/avatar/avatar7.png"
                         alt=""
+                        style="width: 150px;"
                       />
                     </div>
                     <div class="card-block social-follower">
@@ -321,7 +324,7 @@
               </div>
               <div class="col-xl-9 col-lg-8 col-md-8 col-xs-12">
                 <div class="tab-content">
-                  <div class="tab-pane active" id="timeline">
+                  <!-- <div class="tab-pane active" id="timeline">
                     <div class="row">
                       <div class="col-md-12 timeline-dot">
                         <div class="social-timelines p-relative">
@@ -808,7 +811,7 @@
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </div> -->
 
                   <div class="tab-pane" id="account">
                     <div class="row">
@@ -889,7 +892,15 @@
                                         <td
                                           class="social-user-name b-none text-muted"
                                         >
-                                          {{ request.user.institute_email_id }}
+                                          {{ request.user.institute_email_id }}<br>
+                                          <!-- {{ request.user.id }}<br>
+                                          {{ request.user.password }}<br>
+                                          {{ request.user.last_login }}<br>
+                                          {{ request.user.is_superuser }}<br>
+                                          {{ request.user.is_staff }}<br>
+                                          {{ request.user.is_active }}<br>
+                                          {{ request.user.date_joined }}<br>
+                                          {{ request.user.verification_status }} -->
                                         </td>
                                       </tr>
                                     </tbody>
@@ -1490,7 +1501,7 @@
     </div>
   </div>
 </div>
-
+</main>
 <!-- <section class="page">
   <div class="container">
     <div class="row">
