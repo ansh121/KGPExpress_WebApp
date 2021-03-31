@@ -80,7 +80,7 @@ def get_event_str(events):
         eventStr += "\"className\": \"success\",  "
         eventStr += "\"description\": \"{description}\",  ".format(description=ev.description)
         # this url field needs to be modified
-        eventStr += "\"url\": \"{url}\"".format(url=ev.get_html_url)
+        eventStr += "\"url\": \"{url}\"".format(url="")
         eventStr += "},"
     if len(eventStr) > 1:
         eventStr = eventStr[:-1]
