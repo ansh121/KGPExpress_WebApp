@@ -3988,7 +3988,7 @@ function AgendaEventRenderer() {
 				skinCss +
 				"'" +
 			">" +
-			"<div class='fc-event-inner'>" +
+			"<div class='fc-event-inner' data-toggle='tooltip' data-placement='top' title='" + event.description +"'>" +
 			"<div class='fc-event-time'>" +
 			htmlEscape(formatDates(event.start, event.end, opt('timeFormat'))) +
 			"</div>" +
@@ -5350,7 +5350,7 @@ function DayEventRenderer() {
 				skinCss +
 				"'" +
 			">" +
-			"<div class='fc-event-inner'>";
+			"<div class='fc-event-inner' data-toggle='tooltip' data-placement='top' title='" + event.description +"'>";
 		if (!event.allDay && segment.isStart) {
 			html +=
 				"<span class='fc-event-time'>" +

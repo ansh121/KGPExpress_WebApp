@@ -35,7 +35,7 @@ class Event(models.Model):
     @property
     def get_html_url(self):
         url = reverse('app:event_edit', args=(self.event_id,))
-        return f'<a href="{url}"> {self.event_name} </a>'
+        return url
 
 class History(models.Model):
     time_of_edit = models.DateTimeField(primary_key=True)

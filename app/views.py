@@ -23,9 +23,11 @@ import json
 
 env = environ.Env()
 
+
 class HomeView(generic.ListView):
     model = Event
-    #model_2 = Subject
+
+    # model_2 = Subject
     # template_name = 'index.html'
 
     # template_name = 'authentication/modified_calendar.html'
@@ -33,7 +35,7 @@ class HomeView(generic.ListView):
         context = super().get_context_data(**kwargs)
         d = get_date(self.request.GET.get('month', None))
         # form = post(self)
-        cal = Calendar(d.year, d.month)
+        # cal = Calendar(d.year, d.month)
         form = SearchForm(self.request.GET or None)
         subList = []
         if form.is_valid():
@@ -66,29 +68,47 @@ class HomeView(generic.ListView):
         # sub.credit = '4'
         # sub.save()
         eventList = []
-        events = Event.objects.filter(subject__in = subList)
-        eventStr = "["
-        for ev in events:
-            eventStr += "{  "
-            eventStr += "\"title\": \"{event_name}\",  ".format(event_name=ev.event_name)
-            eventStr += "\"start\": new Date({yy}, {mm}, {dd}, {hh}, {min}),  ".format(yy=ev.start_time.year,mm=ev.start_time.month - 1,dd=ev.start_time.day,hh=ev.start_time.hour,min=ev.start_time.minute)
-            eventStr += "\"end\": new Date({yy}, {mm}, {dd}, {hh}, {min}),  ".format(yy=ev.end_time.year,mm=ev.end_time.month - 1,dd=ev.end_time.day,hh=ev.end_time.hour,min=ev.end_time.minute)
-            eventStr += "\"id\": {event_id},  ".format(event_id=ev.event_id)
-            eventStr += "\"allDay\": false,  "
-            eventStr += "\"className\": \"success\""
-            eventStr += "},"
-        eventStr += "]"
+        events = Event.objects.filter(subject__in=subList)
         # html_cal = cal.formatmonth(withyear=True,subList=subList)
         # context['calendar'] = mark_safe(html_cal)
         # context['prev_month'] = prev_month(d)
         # context['next_month'] = next_month(d)
         # context['event'] = "[{  \"title\": \"All Day Event\",  \"start\": new Date(y, m, 1)},{  \"id\": 999,  \"title\": \"Repeating Event\",  \"start\": new Date(y, m, d-3, 16, 0),  \"allDay\": false,  \"className\": \"info\"},{  \"id\": 999,  \"title\": \"Repeating Event\",  \"start\": new Date(y, m, d+4, 16, 0),  \"allDay\": false,  \"className\": \"info\"},{  \"title\": \"Meeting\",  \"start\": new Date(y, m, d, 10, 30),  \"allDay\": false,  \"className\": \"important\"},{  \"title\": \"Lunch\",  \"start\": new Date(y, m, d, 12, 0),  \"end\": new Date(y, m, d, 14, 0),  \"allDay\": false,  \"className\": \"important\"},{  \"title\": \"Birthday Party\",  \"start\": new Date(y, m, d+1, 19, 0),  \"end\": new Date(y, m, d+1, 22, 30),  \"allDay\": \"false\"},{  \"title\": \"Click for Google\",  \"start\": new Date(y, m, 28),  \"end\": new Date(y, m, 29),  \"url\": \"http://google.com/\",  \"className\": \"success\"},]"
         # eventStr = json.dumps(eventList)
-        context['event'] = eventStr[:-2] + "]"
+        context['event'] = get_event_str(events)
         context['form'] = form
         print(context['event'])
         # print(form)
         return context
+
+
+def get_event_str(events):
+    eventStr = "["
+    for ev in events:
+        eventStr += "{  "
+        eventStr += "\"title\": \"{event_name}\",  ".format(event_name=ev.event_name)
+        eventStr += "\"start\": new Date({yy}, {mm}, {dd}, {hh}, {min}),  ".format(yy=ev.start_time.year,
+                                                                                   mm=ev.start_time.month - 1,
+                                                                                   dd=ev.start_time.day,
+                                                                                   hh=ev.start_time.hour,
+                                                                                   min=ev.start_time.minute)
+        eventStr += "\"end\": new Date({yy}, {mm}, {dd}, {hh}, {min}),  ".format(yy=ev.end_time.year,
+                                                                                 mm=ev.end_time.month - 1,
+                                                                                 dd=ev.end_time.day,
+                                                                                 hh=ev.end_time.hour,
+                                                                                 min=ev.end_time.minute)
+        eventStr += "\"id\": {event_id},  ".format(event_id=ev.event_id)
+        eventStr += "\"allDay\": false,  "
+        eventStr += "\"className\": \"success\",  "
+        eventStr += "\"description\": \"{description}\",  ".format(description=ev.description)
+        # this url field needs to be modified
+        eventStr += "\"url\": \"{url}\"".format(url=ev.get_html_url)
+        eventStr += "},"
+    if len(eventStr) > 1:
+        eventStr = eventStr[:-1]
+    eventStr += "]"
+    return eventStr
+
 
 def get_date(req_month):
     if req_month:
@@ -111,6 +131,7 @@ def next_month(d):
     month = 'month=' + str(next_month.year) + '-' + str(next_month.month)
     return month
 
+
 @login_required
 def event(request, event_id=None):
     instance = Event()
@@ -118,7 +139,7 @@ def event(request, event_id=None):
         instance = get_object_or_404(Event, pk=event_id)
     else:
         instance = Event()
-    
+
     c_user = CustomUser.objects.get(username='nilesh')
     sub = Subject.objects.get(year=2020)
     instance.user = c_user
@@ -136,17 +157,21 @@ def event(request, event_id=None):
 def instructions(request):
     return render(request, 'instructions.html')
 
+
 def about_us(request):
     return render(request, 'about_us.html')
+
 
 @login_required
 def my_subjects(request):
     return render(request, 'my_subjects.html')
 
+
 @login_required
 def userhome(request):
     return HomeView.as_view(template_name='userindex.html')(request)
     # return render(request, 'userindex.html')
+
 
 @login_required
 def profile(request):

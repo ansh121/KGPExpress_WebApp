@@ -9,7 +9,6 @@ $.getJSON("/static/assets/data/subject-list.json", function (data, textStatus, j
         // console.log(options);
     }
 );
-
 $(document).ready(function() {
   var date = new Date();
   var d = date.getDate();
@@ -60,7 +59,14 @@ $(document).ready(function() {
     firstDay: 1, //  1(Monday) this can be changed to 0(Sunday) for the USA system
     selectable: false,
     defaultView: 'month',
-
+    eventDidMount: function(info) {
+      var tooltip = new Tooltip(info, {
+        title: info.event.extendedProps.description,
+        placement: 'top',
+        trigger: 'hover',
+        container: 'body'
+      });
+    },
     axisFormat: 'h:mm',
     columnFormat: {
               month: 'ddd',    // Mon
@@ -106,7 +112,6 @@ $(document).ready(function() {
       // render the event on the calendar
       // the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
       $('#calendar').fullCalendar('renderEvent', copiedEventObject, true);
-
       // is the "remove after drop" checkbox checked?
       if ($('#drop-remove').is(':checked')) {
         // if so, remove the element from the "Draggable Events" list
@@ -164,5 +169,5 @@ $(document).ready(function() {
     //   }
     // ],
   });
-  console.log(calendar.events)
+  // console.log(calendar.events)
 });
