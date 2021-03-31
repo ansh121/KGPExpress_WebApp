@@ -202,6 +202,35 @@ def add_registered_subject(request):
 
 
 @login_required
+def add_registered_subject(request):
+    if request.is_ajax():
+        data=request.POST
+        sub=Subject.objects.filter(subject_code=data['subject'][:7])
+        if not sub:
+            response={
+                'flag' : 'failed',
+                'message' : 'Subject not available!'
+            }
+        else:
+            resp=RegisteredSubjects.objects.update_or_create(user=request.user, subject=sub[0])
+            print(resp[1])
+            if resp[1]:
+                response={
+                    'flag' : 'success',
+                    'message' : 'Subject added successfully!'
+                }
+            else:
+                response={
+                    'flag' : 'failed',
+                    'message' : 'Subject already added!'
+                }
+    else:
+        respons={}
+    json = simplejson.dumps(response)
+    return HttpResponse(json, content_type="text/json")
+
+
+@login_required
 def my_subjects(request):
     context={}
     registered_subject_ids=RegisteredSubjects.objects.filter(user=request.user)
@@ -210,7 +239,6 @@ def my_subjects(request):
     print(registered_subjects)
     context['registered_subjects']=registered_subjects
     return render(request, 'my_subjects.html', context)
-
 
 @login_required
 def userhome(request):
