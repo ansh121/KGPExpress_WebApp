@@ -82,7 +82,7 @@ class HomeView(generic.ListView):
         # eventStr = json.dumps(eventList)
         context['event'] = get_event_str(events)
         context['form'] = form
-        print(context['event'])
+        # print(context['event'])
         # print(form)
         return context
 
