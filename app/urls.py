@@ -15,4 +15,5 @@ urlpatterns = [
     path('about_us/', views.about_us, name='about_us'),
     path('my_subjects/', views.my_subjects, name='my_subjects'),
     path('user/profile/', views.profile, name='profile'),
+    path('my_subjects/add_registered_subject/', views.add_registered_subject, name='add_registered_subject'),
 ]

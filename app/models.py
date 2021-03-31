@@ -55,7 +55,7 @@ class History(models.Model):
 
 
 class RegisteredSubjects(models.Model):
-    user = models.OneToOneField(CustomUser, models.DO_NOTHING, primary_key=True)
+    user = models.ForeignKey(CustomUser, models.DO_NOTHING)
     subject = models.ForeignKey(Subject, models.DO_NOTHING)
 
     class Meta:
