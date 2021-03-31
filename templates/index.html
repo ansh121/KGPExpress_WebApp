@@ -96,45 +96,51 @@
     </div>
   </section>
     
-  <section class="clean-block dark" >
-    
-    <div class="container card shadow round" style="background-color: white; padding: 0px;">
+  {% if search_result == True %}
+  <section >
+    <div class="container card" style="padding: 0px;">
       <!-- <div class="container" > -->
+        <div class="card-body">
         {% if subject %}
-        <!-- <div class="card-body"> -->
-          <h5 class="title" style="padding: 8px;">{{ subject }}</h5>
-        <!-- </div> -->
+          <h5 class="card-title" >{{ subject }}</h5>
+          <hr style="margin: 0px;">
         {% endif %}
-      <div class="dark" style="border-width: 2px;border-color: aqua;">
+      <div class="dark">
         <div id='calendar'></div>
       <div style='clear:both'></div>
+    </div>
       </div>
-      
-      <!-- <div class="clearfix">
-        
-        <a
-          class="btn btn-outline-primary btn-sm left"
-          href="{% url 'app:calendar' %}?{{ prev_month }}"
-        >
-          Previous Month
-        </a>
-        <a
-          class="btn btn-outline-primary btn-sm right"
-          href="{% url 'app:calendar' %}?{{ next_month }}"
-        >
-          Next Month
-        </a>
-        <a
-          class="btn btn-outline-success btn-sm right"
-          href="{% url 'app:event_new' %}"
-          style="margin-right: 10px"
-        >
-          New Event
-        </a>
-      </div> -->
-      <!-- {{ calendar }} -->
+    
     </div>
   </section>
+  <section style="margin: 10px;">
+    <div class="card container text-left">
+      <div class="card-body">
+        <div class="card-title">
+          <h4>Subject Details</h4>
+        </div>
+        <table class="table table-responsive m-b-0">
+          <tbody>
+            {% for k,v in subject_details.items %}
+            <tr>
+              <th class="social-label b-none">
+                {{k}}
+              </th>
+              <td
+                class="social-user-name b-none text-muted"
+              >
+                {{v}}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      
+          
+      </div>
+    </div>
+  </section>
+  {% endif %}
 </main>
 {% endblock content %}
 
@@ -151,9 +157,7 @@
 <script src="/static/assets/js/index.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
-<!-- <script src='/static/assets/js/jquery-1.10.2.js' type="text/javascript"></script> -->
-<!-- <script src='/static/assets/js/jquery-ui.custom.min.js' type="text/javascript"></script> -->
 <script src='/static/assets/js/fullcalendar.js' type="text/javascript"></script>
-{#<script src='https://unpkg.com/tooltip.js/dist/umd/tooltip.min.js'></script>#}
+<!-- <script src='https://unpkg.com/tooltip.js/dist/umd/tooltip.min.js'></script> -->
 {% endblock javascripts %}
 

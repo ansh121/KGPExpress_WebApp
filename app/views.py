@@ -15,6 +15,7 @@ from django.utils.safestring import mark_safe
 from authentication.models import CustomUser
 from django.core.exceptions import ValidationError
 from django.utils import timezone
+from django.forms.models import model_to_dict
 import simplejson
 
 from .models import *
@@ -31,13 +32,15 @@ class HomeView(generic.ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['search_result']=False
         # d = get_date(self.request.GET.get('month', None))
         # form = post(self)
         # cal = Calendar(d.year, d.month)
         form = SearchForm(self.request.GET or None)
         subList = []
         if form.is_valid():
-            query_code, query_name = (x for x in form.cleaned_data['subject'].split('-'))
+            context['search_result']=True
+            query_code= form.cleaned_data['subject'][:7]
             query_code = query_code.strip()
             query_year = form.cleaned_data['year']
             query_sem = form.cleaned_data['semester']
@@ -55,6 +58,16 @@ class HomeView(generic.ListView):
         events = Event.objects.filter(subject__in=subList)
         context['event'] = get_event_str(events)
         context['form'] = form
+        if subList:
+            sub_dict = model_to_dict(subList[0])
+            sub_dict.pop('subject_id')
+            sub_dict.pop('semester')
+            sub_dict.pop('year')
+            sub_dict_new_keys={}
+            for k,v in sub_dict.items():
+                sub_dict_new_keys[k.replace('_',' ')]=v
+            context['subject_details'] = sub_dict_new_keys
+            print(sub_dict_new_keys)
         # print(context['event'])
         # print(form)
         return context
