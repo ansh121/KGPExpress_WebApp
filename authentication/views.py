@@ -12,6 +12,8 @@ import environ
 env = environ.Env()
 
 def login_view(request):
+    if request.user.is_authenticated:
+        return redirect('/logout/')
     form = LoginForm(request.POST or None)
     msg = None
 
@@ -36,6 +38,8 @@ def login_view(request):
 
 
 def register_user(request):
+    if request.user.is_authenticated:
+        return redirect('/logout/')
     msg = None
     success = False
 

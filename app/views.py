@@ -13,14 +13,11 @@ from django.views import generic
 from django.urls import reverse
 from django.utils.safestring import mark_safe
 from authentication.models import CustomUser
-from authentication.forms import ProfileForm
 from django.core.exceptions import ValidationError
 from django.utils import timezone
-import calendar
 import simplejson
 
 from .models import *
-from .utils import Calendar
 from .forms import EventForm
 
 import environ
@@ -32,10 +29,6 @@ env = environ.Env()
 class HomeView(generic.ListView):
     model = Event
 
-    # model_2 = Subject
-    # template_name = 'index.html'
-
-    # template_name = 'authentication/modified_calendar.html'
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         # d = get_date(self.request.GET.get('month', None))
@@ -59,27 +52,7 @@ class HomeView(generic.ListView):
         else:
             print(form.errors)
 
-        # sub = Subject()
-        # sub.year = 2020
-        # sub.description = 'aa'
-        # sub.subject_name = 'ENGINEERING LABORATORY'
-        # sub.department = 'CS'
-        # sub.semester = 'Autumn'
-        # sub.subject_code = 'EN19003'
-        # sub.subject_id = '2'
-        # sub.syllabus = 'daa'
-        # sub.teacher_name = 'V'
-        # sub.ltp ='2-0-1'
-        # sub.credit = '4'
-        # sub.save()
-        eventList = []
         events = Event.objects.filter(subject__in=subList)
-        # html_cal = cal.formatmonth(withyear=True,subList=subList)
-        # context['calendar'] = mark_safe(html_cal)
-        # context['prev_month'] = prev_month(d)
-        # context['next_month'] = next_month(d)
-        # context['event'] = "[{  \"title\": \"All Day Event\",  \"start\": new Date(y, m, 1)},{  \"id\": 999,  \"title\": \"Repeating Event\",  \"start\": new Date(y, m, d-3, 16, 0),  \"allDay\": false,  \"className\": \"info\"},{  \"id\": 999,  \"title\": \"Repeating Event\",  \"start\": new Date(y, m, d+4, 16, 0),  \"allDay\": false,  \"className\": \"info\"},{  \"title\": \"Meeting\",  \"start\": new Date(y, m, d, 10, 30),  \"allDay\": false,  \"className\": \"important\"},{  \"title\": \"Lunch\",  \"start\": new Date(y, m, d, 12, 0),  \"end\": new Date(y, m, d, 14, 0),  \"allDay\": false,  \"className\": \"important\"},{  \"title\": \"Birthday Party\",  \"start\": new Date(y, m, d+1, 19, 0),  \"end\": new Date(y, m, d+1, 22, 30),  \"allDay\": \"false\"},{  \"title\": \"Click for Google\",  \"start\": new Date(y, m, 28),  \"end\": new Date(y, m, 29),  \"url\": \"http://google.com/\",  \"className\": \"success\"},]"
-        # eventStr = json.dumps(eventList)
         context['event'] = get_event_str(events)
         context['form'] = form
         # print(context['event'])
@@ -113,28 +86,6 @@ def get_event_str(events):
         eventStr = eventStr[:-1]
     eventStr += "]"
     return eventStr
-
-
-# def get_date(req_month):
-#     if req_month:
-#         year, month = (int(x) for x in req_month.split('-'))
-#         return date(year, month, day=1)
-#     return datetime.today()
-
-
-# def prev_month(d):
-#     first = d.replace(day=1)
-#     prev_month = first - timedelta(days=1)
-#     month = 'month=' + str(prev_month.year) + '-' + str(prev_month.month)
-#     return month
-
-
-# def next_month(d):
-#     days_in_month = calendar.monthrange(d.year, d.month)[1]
-#     last = d.replace(day=days_in_month)
-#     next_month = last + timedelta(days=1)
-#     month = 'month=' + str(next_month.year) + '-' + str(next_month.month)
-#     return month
 
 
 @login_required

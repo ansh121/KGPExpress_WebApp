@@ -32,10 +32,10 @@ class Event(models.Model):
     user = models.ForeignKey(CustomUser, models.DO_NOTHING)
     subject = models.ForeignKey(Subject, models.DO_NOTHING)
 
-    @property
-    def get_html_url(self):
-        url = reverse('app:event_edit', args=(self.event_id,))
-        return url
+    class Meta:
+        managed = True
+        db_table = 'event'
+
 
 class History(models.Model):
     time_of_edit = models.DateTimeField(primary_key=True)
