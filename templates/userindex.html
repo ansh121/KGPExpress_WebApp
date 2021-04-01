@@ -93,8 +93,11 @@
       <!-- <div class="container" > -->
       <div class="card-body">
         {% if subject %}
-        <h5 class="card-title">{{ subject }}</h5>
-        <hr style="margin: 0px" />
+        <div class="row">
+        <h5 class="card-title text-left col-9">{{ subject }}</h5>
+        <a class="btn btn-outline-primary " href="{% url 'app:event_new' %}"><i class="fa fa-plus" aria-hidden="true"></i>Add Event</a> 
+      </div>
+      <hr style="margin: 0px" />
         {% endif %}
         <div class="dark">
           <div id="calendar"></div>

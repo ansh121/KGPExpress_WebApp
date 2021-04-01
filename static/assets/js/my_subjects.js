@@ -8,7 +8,7 @@ $(document).ready(function () {
       success: function (data) {
         alert(data['message']);
         if(data['flag']=='success'){
-            $('#registered_subjects').append("<a class=\"btn btn-info\">"+$("#subject").val()+"</a>");
+            $('#registered_subjects').append("<a class=\"btn btn-sm text-truncate btn-block btn-outline-success text-left\">"+$("#subject").val()+"</a>");
         }       
       },
     });

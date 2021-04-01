@@ -852,7 +852,7 @@
                                         <td
                                           class="social-user-name b-none p-t-0 text-muted"
                                         >
-                                          {{ request.user.first_name }}
+                                          {{ request.user.first_name|default_if_none:""  }}
                                         </td>
                                       </tr>
                                       <tr>
@@ -862,7 +862,7 @@
                                         <td
                                           class="social-user-name b-none p-t-0 text-muted"
                                         >
-                                          {{ request.user.last_name }}
+                                          {{ request.user.last_name|default_if_none:"" }}
                                         </td>
                                       </tr>
                                       <tr>
@@ -882,7 +882,7 @@
                                         <td
                                           class="social-user-name b-none text-muted"
                                         >
-                                          {{ request.user.roll_no }}
+                                          {{ request.user.roll_no|default_if_none:"" }}
                                         </td>
                                       </tr>
                                       <tr>
@@ -892,7 +892,7 @@
                                         <td
                                           class="social-user-name b-none text-muted"
                                         >
-                                          {{ request.user.institute_email_id }}<br>
+                                          {{ request.user.institute_email_id|default_if_none:"" }}<br>
                                           <!-- {{ request.user.id }}<br>
                                           {{ request.user.password }}<br>
                                           {{ request.user.last_login }}<br>
