@@ -1,4 +1,6 @@
-$(document).ready(function() {
+$(document).ready(cal());
+
+function cal() {
   var date = new Date();
   var d = date.getDate();
   var m = date.getMonth();
@@ -37,7 +39,7 @@ $(document).ready(function() {
 
   /* initialize the calendar
   -----------------------------------------------------------------*/
-
+  $('#calendar').html("");
   var calendar =  $('#calendar').fullCalendar({
     header: {
       left: 'title',
@@ -159,4 +161,4 @@ $(document).ready(function() {
     // ],
   });
   // console.log(calendar.events)
-});
+}

@@ -30,6 +30,8 @@ env = environ.Env()
 
 
 def index(request):
+    if request.user.is_authenticated:
+        return redirect('/logout/')
     context = search_result(request)
     return render(request, 'index.html', context)
 
@@ -42,6 +44,7 @@ def event(request, event_id=None):
         return render(request, 'event.html', {'form': form})
     elif request.POST:
         data=request.POST.copy()
+        # data['subject']=' '.join(data['subject'].split(' '))
         sub=Subject.objects.get(subject_code=data['subject'][:7])
         data['subject']=sub
 
@@ -82,11 +85,16 @@ def add_registered_subject(request):
             }
         else:
             resp=RegisteredSubjects.objects.update_or_create(user=request.user, subject=sub[0])
-            print(resp[1])
+            print(resp)
             if resp[1]:
+                registered_subjects=Subject.objects.filter(subject_id=resp[0].subject_id)
+                events = Event.objects.filter(subject__in=registered_subjects)
+                # print(events.values())
                 response={
                     'flag' : 'success',
-                    'message' : 'Subject added successfully!'
+                    'message' : 'Subject added successfully!',
+                    'event' : get_event_str(events),
+                    'subject_id' : str(resp[0].subject_id)
                 }
             else:
                 response={
@@ -98,15 +106,46 @@ def add_registered_subject(request):
     json = simplejson.dumps(response)
     return HttpResponse(json, content_type="text/json")
 
+@login_required
+def delete_registered_subject(request):
+    if request.is_ajax():
+        data=request.POST
+        print("data---->",data,data['subject_id'][27:])
+        sub=Subject.objects.get(subject_id=data['subject_id'][27:])
+        # if not sub:
+        #     response={
+        #         'flag' : 'failed',
+        #         'message' : 'Subject not available!'
+        #     }
+        # else:
+        resp=RegisteredSubjects.objects.get(user=request.user, subject=sub)
+        resp.delete()
+        response={
+            'flag' : 'success',
+            'message' : 'Subject deleted successfully!',
+            # 'event' : get_event_str(events),
+            # 'subject_id' : str(resp[0].subject_id)
+        }
+    else:
+        respons={}
+    json = simplejson.dumps(response)
+    return HttpResponse(json, content_type="text/json")
+
 
 @login_required
 def my_subjects(request):
     context={}
     registered_subject_ids=RegisteredSubjects.objects.filter(user=request.user)
-    registered_subjects=Subject.objects.filter(subject_id__in=registered_subject_ids)
-    registered_subjects=registered_subjects.values('subject_code','subject_name')
-    print(registered_subjects)
-    context['registered_subjects']=registered_subjects
+    registered_subjects=Subject.objects.filter(subject_id__in=registered_subject_ids.values('subject_id'))
+    registered_subjects_min=registered_subjects.values('subject_code','subject_name','subject_id')
+    print(registered_subjects_min)
+    context['registered_subjects']=registered_subjects_min
+
+
+    events = Event.objects.filter(subject__in=registered_subjects)
+    # print(events.values())
+    context['event'] = get_event_str(events)
+    print(context['event'])
     return render(request, 'my_subjects.html', context)
 
 

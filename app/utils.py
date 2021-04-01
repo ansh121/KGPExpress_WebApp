@@ -45,6 +45,7 @@ def search_result(request):
 def get_event_str(events):
     eventStr = "["
     for ev in events:
+        print(str(ev.subject_id)+"_"+str(ev.event_id))
         eventStr += "{  "
         eventStr += "\"title\": \"{event_name}\",  ".format(event_name=ev.event_name)
         eventStr += "\"start\": new Date({yy}, {mm}, {dd}, {hh}, {min}),  ".format(yy=ev.start_time.year,
@@ -57,9 +58,11 @@ def get_event_str(events):
                                                                                  dd=ev.end_time.day,
                                                                                  hh=ev.end_time.hour,
                                                                                  min=ev.end_time.minute)
-        eventStr += "\"id\": {event_id},  ".format(event_id=ev.event_id)
+        # eventStr += "\"id\": {event_id},  ".format(event_id=str(ev.subject_id)+""+str(ev.event_id))
+        eventStr += "\"id\": {event_id},  ".format(event_id=str(ev.event_id))
+        eventStr += "\"subject_id\": {subject_id},  ".format(subject_id=str(ev.subject_id))
         eventStr += "\"allDay\": false,  "
-        eventStr += "\"className\": \"success\",  "
+        # eventStr += "\"className\": \"{classes}\",  ".format(classes=str(ev.subject_id)+"sub"+str(ev.event_id))
         eventStr += "\"description\": \"{description}\",  ".format(description=ev.description)
         # this url field needs to be modified
         eventStr += "\"url\": \"{url}\"".format(url="")

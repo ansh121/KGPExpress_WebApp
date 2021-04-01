@@ -3979,7 +3979,8 @@ function AgendaEventRenderer() {
 			html += "div";
 		}
 		html +=
-			" class='" + classes.join(' ') + "'" +
+			// " id='" + event.subject_id+ "sub" +event.id +"'" +
+			" class='" + classes.join(' ') +' '+event.subject_id+ "'" +
 			" style=" +
 				"'" +
 				"position:absolute;" +
@@ -5342,7 +5343,8 @@ function DayEventRenderer() {
 			html += "<div";
 		}
 		html +=
-			" class='" + classNames.join(' ') + "'" +
+			// " id='" + event.subject_id+ "sub" +event.id +"'" +
+			" class='" + classNames.join(' ') +' '+event.subject_id+ "'" +
 			" style=" +
 				"'" +
 				"position:absolute;" +

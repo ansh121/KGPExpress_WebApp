@@ -3,14 +3,12 @@ Subjects{%endblock %}
 
 <!-- Specific Page CSS goes HERE  -->
 {% block stylesheets %}
-<link
-  rel="stylesheet"
-  href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css"
-/>
-<link
-  href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css"
-  rel="stylesheet"
-/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css"
+  rel="stylesheet" />
+<link href="/static/assets/css/fullcalendar.css" rel="stylesheet" />
+<link href="/static/assets/css/fullcalendar.print.css" rel="stylesheet" media="print" />
+<link href="/static/assets/css/index.css" rel="stylesheet" />
 {% endblock stylesheets %} {% block body_class %} {%endblock body_class %}
 {%block content %}
 
@@ -20,33 +18,27 @@ Subjects{%endblock %}
       <tbody>
         <tr class="d-flex">
           <td class="col-8">
-            <div
-              class="container card"
-              style="background-color: white; padding: 5px"
-            >
+            <div class="container card" style="padding: 0px">
               <!-- <div class="container" > -->
-              <div class="clearfix">
-                <a
-                  class="btn btn-primary left"
-                  href="{% url 'app:userhome' %}?{{ prev_month }}"
-                >
-                  Previous Month
-                </a>
-                <a
-                  class="btn btn-primary right"
-                  href="{% url 'app:userhome' %}?{{ next_month }}"
-                >
-                  Next Month
-                </a>
-                <a
-                  class="btn btn-warning right"
-                  href="{% url 'app:event_new' %}"
-                  style="margin-right: 10px"
-                >
-                  New Event
-                </a>
+              <div class="card-body">
+                {% if subject %}
+
+                <div class="row">
+                  <div class="col-9">
+                    <h5 class="card-title text-left">{{ subject }}</h5>
+                  </div>
+                  <div class="col-3 d-flex justify-content-end">
+                    <a class="btn btn-sm btn-outline-primary" href="{% url 'app:event_new' %}"
+                      style="height: fit-content"><i class="fa fa-plus"></i>Add Event</a>
+                  </div>
+                </div>
+                <hr style="margin: 1px" />
+                {% endif %}
+                <div class="dark">
+                  <div id="calendar"></div>
+                  <div style="clear: both"></div>
+                </div>
               </div>
-              {{ calendar }}
             </div>
           </td>
           <td class="col-4">
@@ -56,20 +48,32 @@ Subjects{%endblock %}
                   <h5>Registered Subjects</h5>
                   <hr />
                 </div>
-                <div id="registered_subjects">
-                  {% for sub in registered_subjects %}
-                  <a class="btn btn-sm text-truncate btn-block btn-outline-success text-left">{{sub.subject_code}}: {{sub.subject_name}} </a>
-                  {% endfor %}
-                
-              </div>
-              <br>
-                <button
-                  type="button"
-                  class="btn btn-dark btn-sm"
-                  data-toggle="modal"
-                  data-target="#AddSubjectModal"
-                >
-                  <i class="fas fa-plus"> </i>
+                <div>
+                  <ul id="registered_subjects" class="list-group">
+                    {% for sub in registered_subjects %}
+
+                    <li id="{{sub.subject_id}}" class="list-group-item">
+                      <div class="row">
+                        <div class="col-10">
+                          <a class="btn btn-sm text-truncate btn-block text-left">
+                            {{sub.subject_code}}: {{sub.subject_name}}
+                          </a>
+                        </div>
+                        <div class="col-2">
+                          <a type="button"  class="btn btn-sm text-truncate btn-block text-left" data-toggle="modal"
+                          data-target="#DeleteSubjectModal{{sub.subject_id}}"><i class="fa fa-trash"
+                              aria-hidden="true"></i></a>
+                        </div>
+                      </div>
+                    </li>
+
+                    {% endfor %}
+                  </ul>
+                </div>
+                <br />
+                <button type="button" class="btn btn-outline-dark btn-sm pull-right" data-toggle="modal"
+                  data-target="#AddSubjectModal">
+                  <i class="fas fa-plus"> Add Subject</i>
                 </button>
               </div>
             </div>
@@ -78,63 +82,32 @@ Subjects{%endblock %}
       </tbody>
     </table>
   </section>
-  <div
-    class="modal fade"
-    id="AddSubjectModal"
-    data-backdrop="static"
-    data-keyboard="false"
-    tabindex="-1"
-    aria-labelledby="staticBackdropLabel"
-    aria-hidden="true"
-  >
+  <div class="modal fade" id="AddSubjectModal" data-backdrop="static" data-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="staticBackdropLabel">Add Subject</h5>
-          <button
-            type="button"
-            class="close"
-            data-dismiss="modal"
-            aria-label="Close"
-          >
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
 
-        <form
-          id="addRegisteredSubjectForm"
-          method="post"
-          style="border-radius: 10px; border-color: rgb(255, 255, 255)"
-        >
+        <form id="addRegisteredSubjectForm" method="post" style="border-radius: 10px; border-color: rgb(255, 255, 255)">
           {% csrf_token %}
           <div class="modal-body">
             <div class="form-group">
               <label for="card-holder">Subject</label>
-              <input
-                type="text"
-                id="subject"
-                class="form-control"
-                placeholder="Enter course code"
-                name="subject"
-                list="subject-list"
-                required
-              />
+              <input type="text" id="subject" class="form-control" placeholder="Enter course code" name="subject"
+                list="subject-list" required />
               <datalist id="subject-list"></datalist>
             </div>
             <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-dismiss="modal"
-              >
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">
                 Close
               </button>
-              <button
-                type="submit"
-                class="btn btn-primary"
-                name="addRegisteredSubject"
-                value="addRegisteredSubjectFormSubmit"
-              >
+              <button type="submit" class="btn btn-primary" name="addRegisteredSubject"
+                value="addRegisteredSubjectFormSubmit">
                 Submit
               </button>
             </div>
@@ -143,14 +116,58 @@ Subjects{%endblock %}
       </div>
     </div>
   </div>
+  {% for sub in registered_subjects %}
+  <div class="modal fade" id="DeleteSubjectModal{{sub.subject_id}}" data-backdrop="static" data-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Delete Subject</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <form id="deleteRegisteredSubjectForm{{sub.subject_id}}" method="post" style="border-radius: 10px; border-color: rgb(255, 255, 255)">
+          {% csrf_token %}
+          <div class="modal-body">
+            <p>Are You Sure Want to remove '{{sub.subject_code}}: {{sub.subject_name}}' from your subjects?</p>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                Close
+              </button>
+              <button type="submit" class="btn btn-danger" name="deleteRegisteredSubject"
+                value="deleteRegisteredSubjectFormSubmit">
+                Remove
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 </main>
+{% endfor %}
 {% endblock content %}
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
-<script src="https://cdn.jsdelivr.net/gh/xcash/bootstrap-autocomplete@master/dist/latest/bootstrap-autocomplete.min.js"></script>
-<script src="/static/assets/js/my_subjects.js"></script>
+<script>
+  var data = String("{{ event }}");
+  var event_list;
+  function data_update() {
+    event_list = eval(data.replace(/&quot;/g, '"'));
+  }
+  data_update(data);
+
+  // {#console.log(data)#}
+  // {#console.log(event_list)#}
+</script>
+<script
+  src="https://cdn.jsdelivr.net/gh/xcash/bootstrap-autocomplete@master/dist/latest/bootstrap-autocomplete.min.js"></script>
+<script src="/static/assets/js/fullcalendar.js" type="text/javascript"></script>
+<script src="/static/assets/js/calender.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
-
+<script src="/static/assets/js/my_subjects.js"></script>
 {% endblock javascripts %}
