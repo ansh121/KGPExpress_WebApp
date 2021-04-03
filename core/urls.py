@@ -22,5 +22,6 @@ urlpatterns = [
     path('verification/', include('verify_email.urls')),
     path("", include("authentication.urls")),
     path("", include("app.urls")),
+    path("", include("django.contrib.auth.urls")),
 ]
 
