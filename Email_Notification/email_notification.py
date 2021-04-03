@@ -2,9 +2,11 @@ import smtplib, ssl
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import email.utils
-from psycopg2 import sql
-import yaml
+
 import psycopg2
+from psycopg2 import sql
+
+import yaml
 from config import config
 
 
@@ -32,8 +34,8 @@ for user in all_users:
 
 	raw_sql = query_statement['get_event']['query']
 	#print(raw_sql)
-	like_term = '{}'.format(user_name)
-	cur.execute(raw_sql,(like_term,))
+	#usrname = '{}'.format(user_name)
+	cur.execute(raw_sql,(user_name,))
 	events = cur.fetchall()
 
 	if len(events) > 0:
@@ -58,17 +60,12 @@ for user in all_users:
 		  </body>
 		</html>
 		"""
-		#part3=receiver_email
 		# Turn these into plain/html MIMEText objects
-		part1 = MIMEText(text, "plain")
-		part2 = MIMEText(html, "html")
-		part3 = MIMEText(receiver_email, "plain")
 		# Add HTML/plain-text parts to MIMEMultipart message
 		# The email client will try to render the last part first
-		message.attach(part1)
-		message.attach(part2)
-		#message.attach(part3)
+		message.attach(MIMEText(html, "html"))
 		print(message.as_string())
+		
 		# Create secure connection with server and send email
 		context = ssl.create_default_context()
 		print("sending mail")
