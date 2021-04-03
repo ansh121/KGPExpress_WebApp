@@ -1,5 +1,5 @@
-{% extends "layouts/base-loggedin.html" %} {% block title %}My
-Subjects{%endblock %}
+{% extends "layouts/base-loggedin.html" %} 
+{% block title %}My Subjects{%endblock %}
 
 <!-- Specific Page CSS goes HERE  -->
 {% block stylesheets %}
@@ -19,21 +19,11 @@ Subjects{%endblock %}
         <tr class="d-flex">
           <td class="col-8">
             <div class="container card" style="padding: 0px">
-              <!-- <div class="container" > -->
               <div class="card-body">
-                {% if subject %}
-
-                <div class="row">
-                  <div class="col-9">
-                    <h5 class="card-title text-left">{{ subject }}</h5>
-                  </div>
-                  <div class="col-3 d-flex justify-content-end">
-                    <a class="btn btn-sm btn-outline-primary" href="{% url 'app:event_new' %}"
-                      style="height: fit-content"><i class="fa fa-plus"></i>Add Event</a>
-                  </div>
+                <div class="card-title">
+                  <h5>Schedule</h5>
+                  <hr />
                 </div>
-                <hr style="margin: 1px" />
-                {% endif %}
                 <div class="dark">
                   <div id="calendar"></div>
                   <div style="clear: both"></div>
@@ -42,7 +32,7 @@ Subjects{%endblock %}
             </div>
           </td>
           <td class="col-4">
-            <div class="card" style="background-color: white">
+            <div class="card" style="background-color: white; min-height: 100%;">
               <div class="card-body">
                 <div class="card-title">
                   <h5>Registered Subjects</h5>

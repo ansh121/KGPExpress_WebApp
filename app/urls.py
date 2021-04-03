@@ -9,6 +9,7 @@ urlpatterns = [
     path('', views.index, name='calendar'),
     url(r'^event/new/$', views.event, name='event_new'),
     url(r'^event/edit/(?P<event_id>\d+)/$', views.event, name='event_edit'),
+    url(r'^event/view/(?P<event_id>\d+)/$', views.event_view, name='event_view'),
     path('userhome/', views.userhome, name='userhome'),
     # path('userhome/', views.HomeView.as_view(template_name='userindex.html'), name='userhome'),
     path('instructions/', views.instructions, name='instructions'),

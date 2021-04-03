@@ -1,0 +1,252 @@
+{% extends "layouts/base-loggedin.html" %} 
+{% block title %}Event{% endblock%}
+{% block content %}
+<div class="clearfix" style="padding-top: 55px">
+  <a class="btn btn-primary left" href="{% url 'app:userhome' %}"><i class="fas fa-backward"></i> Calendar</a>
+</div>
+
+<section class="clean-block clean-form dark" style="background: transparent;">
+<div class="container">
+  {% if verification_status == False %}
+  <div class="card">
+    <div class="card-body text-center">
+      <p>Please complete you profile to create and edit Events. Click here to complete <a href="{% url 'app:profile' %}" style="font-size: 14px;">Profile</a>.</p>
+    </div>
+  </div>
+  {% else %}
+    <form
+      method="post"
+      action="."
+      style="
+        border-radius: 10px;
+        padding: 33px;
+        border-color: rgb(255, 255, 255);
+        font-size: 14px;
+      "
+    >
+      {% csrf_token %}
+      <h5 class="text-center">
+        {% if event %}
+          Edit Event
+        {% else %}
+          New Event
+        {% endif %}
+      </h5>
+      <p style="text-align: center;font-size: 13px;">
+        {% if msg %}
+        <span style="color: green;">{{ msg | safe }}</span>
+        {% endif %}
+        {% if form.errors %} 
+        {% for field in form %} 
+        {% for error in field.errors %}
+        <div class="alert alert-danger">
+          {{ field.label }} <strong>{{ error|escape }}</strong>
+        </div>
+        {% endfor %} 
+        {% endfor %} 
+        {% for error in form.non_field_errors %}
+        <div class="alert alert-danger">
+          {{ field.label }} <strong>{{ error|escape }}</strong>
+        </div>
+        {% endfor %} 
+        {% endif %}
+    </p>
+
+      <div class="form-group">
+        <label for="id_Subject" >Subject</label>
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text"
+              ><i class="fa fa-book" style="width: 16px"></i
+            ></span>
+          </div>
+          <input
+          type="text"
+          id="id_subject"
+          class="form-control"
+          placeholder="Select course here"
+          name="subject"
+          list="subject-list"
+          {% if subject %}
+          value="{{subject.subject_code_name}}"
+          readonly
+          {% endif %}
+          
+        />
+        {% if not subject %}
+        <datalist id="subject-list"></datalist>
+        {% endif %}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="form-row">
+          <div class="col" style="width: 40%">
+            <label>Semester</label>
+            <select class="custom-select"
+            name="semester"
+            {% if subject %}
+            disabled
+            {% endif %}
+            >
+            {% if subject %}
+            <option selected>{{subject.semester}}</option>
+            {% else %}
+            <option selected>Spring</option>
+            <option>Autumn</option>
+            {% endif %}
+          </select>
+          </div>
+          <div class="col" style="width: 40%">
+            <label>Year</label>
+            <select class="custom-select" name="year" {% if subject %}disabled{% endif %}>
+              {% if subject %}
+              <option selected>{{subject.year}}</option>
+              {% else %}
+              <option selected>2021</option>
+              <option>2020</option>
+              {% endif %}
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="id_event_name" >Event name</label>
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text"
+              ><i class="fa fa-sticky-note" style="width: 16px"></i
+            ></span>
+          </div>
+          <input
+            type="text"
+            name="event_name"
+            maxlength="50"
+            id="id_event_name"
+            class="form-control"
+            placeholder="Event Name"
+            {% if event %}
+            value="{{ event.event_name }}"
+            {% endif %}
+            required
+          />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="id_start_time" >Start Time</label>
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text"><i class="fa fa-calendar-check-o" style="width: 16px"></i></span>
+          </div>
+          <input
+            type="datetime-local"
+            name="start_time"
+            id="id_start_time"
+            class="form-control"
+            {% if event %}
+            value="{{ event.start_time }}"
+            {% endif %}
+            required
+          />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="id_end_time" >End Time</label>
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text"><i class="fa fa-calendar-times-o" style="width: 16px"></i></span>
+          </div>
+          <input
+            type="datetime-local"
+            name="end_time"
+            id="id_end_time"
+            class="form-control"
+            {% if event %}
+            value="{{ event.end_time }}"
+            {% endif %}
+            required
+          />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="id_description">Description</label>
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text"
+              ><i class="fa fa-align-justify" style="width: 16px"></i
+            ></span>
+          </div>
+          <textarea 
+            class="form-control"
+            type="text"
+            name="description"
+            maxlength="1000"
+            id="id_description"
+            placeholder="Description"
+            rows="2"
+          >{% if event %}{{ event.description }}{% endif %}</textarea>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="id_type">Type</label>
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text"
+              ><i class="fa fa-filter " style="width: 16px"></i
+            ></span>
+          </div>
+          <select
+            class="form-control custom-select"
+            name="type"
+            id="id_type">
+            <option selected value="Class Test">Class Test</option>
+            <option value="Quiz">Quiz</option>
+            <option value="Assignment">Assignment</option>
+            <option value="Project">Project</option>
+            <option value="Other">Other</option>
+            {% if event %}
+            <option selected value="{{event.type}}">{{event.type}}</option>
+            {% endif %}
+          </select>
+        </div>
+      </div>
+      <!-- <div class="form-group">
+        <label for="id_is_recurring">Is Recurring</label>
+        <div class="input-group">
+          <input class="form-check-input" type="checkbox" id="id_is_recurring" name="is_recurring" 
+        {% if event.is_recurring %}
+          checked
+        {% endif %}
+            />
+        </div>
+      </div> -->
+      <div class="form-group form-check">
+        <input class="form-check-input" type="checkbox" id="id_is_recurring" name="is_recurring" 
+        {% if event.is_recurring %}
+          checked
+        {% endif %}
+            /><label
+          class="form-check-label"
+          for="id_is_recurring"
+          >Is Recurring</label
+        >
+      </div>
+      <button
+        class="btn btn-primary btn-block"
+        type="submit"
+      >
+        Submit
+      </button>
+    </form>
+  {% endif %}
+  </div>
+</section>
+
+{% endblock content %}
+
+
+{% block javascripts %}
+<script src="/static/assets/js/event.js"></script>
+{% endblock javascripts %}
