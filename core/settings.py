@@ -21,9 +21,10 @@ env = environ.Env(
     # set casting, default value
     DEBUG=(bool, False)
 )
-
-# reading .env file
-# environ.Env.read_env(env_file='.env')
+# checking if .env exists file
+if os.path.exists('.env') and os.path.isfile('.env'):
+    # reading .env file
+    environ.Env.read_env(env_file='.env')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -55,6 +56,8 @@ INSTALLED_APPS = [
     'authentication',
     'app',
 ]
+
+AUTH_USER_MODEL = 'authentication.CustomUser'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -168,4 +171,4 @@ EMAIL_HOST_USER = env('EMAIL_ID')
 EMAIL_HOST_PASSWORD = env('EMAIL_PW')
 DEFAULT_FROM_EMAIL = 'noreply<no_reply@domain.com>'
 
-LOGIN_URL = 'login'
+LOGIN_URL = 'authentication:login'

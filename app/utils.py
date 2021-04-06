@@ -1,45 +1,73 @@
-from datetime import datetime, timedelta
-from calendar import HTMLCalendar
-
-from django.utils.safestring import mark_safe
-
-from .models import Event
+from .forms import *
+from .models import *
+from django.forms.models import model_to_dict
 
 
-class Calendar(HTMLCalendar):
-    def __init__(self, year=None, month=None):
-        self.year = year
-        self.month = month
-        super(Calendar, self).__init__()
+def search_result(request):
+    context={}
+    context['search_result']=False
 
-    # formats a day as a td
-    # filter events by day
-    def formatday(self, day, events):
-        events_per_day = events.filter(start_time__day=day)
-        d = ''
-        for event in events_per_day:
-            d += f'<li> {event.get_html_url} </li>'
+    form = SearchForm(request.GET or None)
+    subList = []
+    if form.is_valid():
+        context['search_result']=True
+        query_code= form.cleaned_data['subject'][:7]
+        query_code = query_code.strip()
+        query_year = form.cleaned_data['year']
+        query_sem = form.cleaned_data['semester']
+        context['subject'] = form.cleaned_data['subject']
 
-        if day != 0:
-            return f"<td><span class='date'>{day}</span><ul> {d} </ul></td>"
-        return '<td></td>'
+        try:
+            subject = Subject.objects.get(subject_code=query_code, semester=query_sem, year=query_year)
+            subList.append(subject)
+        except Subject.DoesNotExist:
+            subject = None
+            print("Subject Entry does not exist")
+    else:
+        print(form.errors)
 
-    # formats a week as a tr
-    def formatweek(self, theweek, events):
-        week = ''
-        for d, weekday in theweek:
-            week += self.formatday(d, events)
-        return f'<tr> {week} </tr>'
+    events = Event.objects.filter(subject__in=subList)
+    context['event'] = get_event_str(events)
+    context['form'] = form
+    if subList:
+        sub_dict = model_to_dict(subList[0])
+        sub_dict.pop('subject_id')
+        sub_dict.pop('semester')
+        sub_dict.pop('year')
+        sub_dict_new_keys={}
+        for k,v in sub_dict.items():
+            sub_dict_new_keys[k.replace('_',' ')]=v
+        context['subject_details'] = sub_dict_new_keys
+        print(sub_dict_new_keys)
 
-    # formats a month as a table
-    # filter events by year and month
-    def formatmonth(self, withyear=True):
-        events = Event.objects.filter(start_time__year=self.year, start_time__month=self.month)
+    return context
 
-        cal = f'<table border="0" cellpadding="0" cellspacing="0" class="calendar">\n'
-        cal += f'{self.formatmonthname(self.year, self.month, withyear=withyear)}\n'
-        cal += f'{self.formatweekheader()}\n'
-        for week in self.monthdays2calendar(self.year, self.month):
-            cal += f'{self.formatweek(week, events)}\n'
-        cal += f'</table>'
-        return cal
+def get_event_str(events):
+    eventStr = "["
+    for ev in events:
+        print(str(ev.subject_id)+"_"+str(ev.event_id))
+        eventStr += "{  "
+        eventStr += "\"title\": \"{event_name}\",  ".format(event_name=ev.event_name)
+        eventStr += "\"start\": new Date({yy}, {mm}, {dd}, {hh}, {min}),  ".format(yy=ev.start_time.year,
+                                                                                   mm=ev.start_time.month - 1,
+                                                                                   dd=ev.start_time.day,
+                                                                                   hh=ev.start_time.hour,
+                                                                                   min=ev.start_time.minute)
+        eventStr += "\"end\": new Date({yy}, {mm}, {dd}, {hh}, {min}),  ".format(yy=ev.end_time.year,
+                                                                                 mm=ev.end_time.month - 1,
+                                                                                 dd=ev.end_time.day,
+                                                                                 hh=ev.end_time.hour,
+                                                                                 min=ev.end_time.minute)
+        # eventStr += "\"id\": {event_id},  ".format(event_id=str(ev.subject_id)+""+str(ev.event_id))
+        eventStr += "\"id\": {event_id},  ".format(event_id=str(ev.event_id))
+        eventStr += "\"subject_id\": {subject_id},  ".format(subject_id=str(ev.subject_id))
+        eventStr += "\"allDay\": false,  "
+        # eventStr += "\"className\": \"{classes}\",  ".format(classes=str(ev.subject_id)+"sub"+str(ev.event_id))
+        eventStr += "\"description\": \"{description}\",  ".format(description=ev.description)
+        # this url field needs to be modified
+        eventStr += "\"url\": \"{url}\"".format(url="")
+        eventStr += "},"
+    if len(eventStr) > 1:
+        eventStr = eventStr[:-1]
+    eventStr += "]"
+    return eventStr

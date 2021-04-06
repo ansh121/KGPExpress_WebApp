@@ -6,7 +6,15 @@ from . import views
 app_name = 'app'
 urlpatterns = [
     #path('', home, name="home"),
-    path('', views.HomeView.as_view(), name='calendar'),
+    path('', views.index, name='calendar'),
     url(r'^event/new/$', views.event, name='event_new'),
     url(r'^event/edit/(?P<event_id>\d+)/$', views.event, name='event_edit'),
+    path('userhome/', views.userhome, name='userhome'),
+    # path('userhome/', views.HomeView.as_view(template_name='userindex.html'), name='userhome'),
+    path('instructions/', views.instructions, name='instructions'),
+    path('about_us/', views.about_us, name='about_us'),
+    path('my_subjects/', views.my_subjects, name='my_subjects'),
+    path('user/profile/', views.profile, name='profile'),
+    path('my_subjects/add_registered_subject/', views.add_registered_subject, name='add_registered_subject'),
+    path('my_subjects/delete_registered_subject/', views.delete_registered_subject, name='delete_registered_subject'),
 ]

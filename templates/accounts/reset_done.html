@@ -1,0 +1,30 @@
+{% extends "layouts/base-fullscreen.html" %}
+
+{% block title %}Password Reset Successful{% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block body_class %} {% endblock body_class %}
+
+{% block content %}
+
+    <main class="page login-page" style="background: url('/static/assets/img/hijli.jpg') top;filter: blur(0px);">
+        <section class="clean-block clean-form dark" style="background: transparent;">
+            <div class="container">
+
+                <form method="post" action="" style="margin-top: 50px;padding: 33px;border-color: rgb(255,255,255);border-radius: 10px;">
+                    {% csrf_token %}
+                    <h1 style="font-size: 25px;text-align: center;padding: 10px;font-weight: 600;">KGPExpress</h1>
+                    <div style="text-align: center;">
+                        Password reset successful. Please click here to <a href="/login" style="font-size: 14px;">Login</a>.
+                    </div>
+                </form>
+            </div>
+        </section>
+    </main>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

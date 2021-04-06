@@ -1,16 +1,19 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 from django.forms.utils import ErrorList
 from django.http import HttpResponse
 from .forms import LoginForm, SignUpForm
 from verify_email.email_handler import send_verification_email
+from authentication.models import CustomUser
 # from validate_email import validate_email
 
 import environ
 env = environ.Env()
 
 def login_view(request):
+    if request.user.is_authenticated:
+        return redirect('/logout/')
     form = LoginForm(request.POST or None)
     msg = None
 
@@ -24,7 +27,7 @@ def login_view(request):
 
             if user is not None:
                 login(request, user)
-                return redirect("/")
+                return redirect("/userhome/")
                 
             else:
                 msg = 'Authentication Failed'
@@ -35,13 +38,15 @@ def login_view(request):
 
 
 def register_user(request):
+    if request.user.is_authenticated:
+        return redirect('/logout/')
     msg = None
     success = False
 
     if request.method == "POST":
         form = SignUpForm(request.POST)
         try:
-            invalid_user = User.objects.get(username=request.POST['username'])
+            invalid_user = CustomUser.objects.get(username=request.POST['username'])
             if invalid_user.is_active==False:
                 invalid_user.delete()
         except:
