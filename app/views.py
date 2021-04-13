@@ -1,3 +1,4 @@
+from authentication.forms import ProfileForm
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 # from django.contrib.auth.models import User
@@ -20,7 +21,7 @@ import simplejson
 
 from .models import *
 from .forms import EventForm
-
+from authentication.forms import ProfileForm
 import environ
 import json
 
@@ -121,6 +122,7 @@ def event(request, event_id=None):
     else:
         return render(request, 'event_add_and_edit.html')
 
+
 def event_view(request, event_id=None):
     if event_id==None:
         if request.user.is_authenticated:
@@ -132,14 +134,17 @@ def event_view(request, event_id=None):
     subject = Subject.objects.get(subject_id = getattr(event,'subject_id'))
     return render(request, 'event.html',{'event': event, 'subject_name':getattr(subject,'subject_name')+" ("+getattr(subject,'subject_code')+")"})
 
+@login_required
 def event_delete(request, event_id):
     event = Event.objects.get(event_id=event_id)
     event.delete()
     return render(request, 'event_add_and_edit.html', {'delete_flag':True})
 
+
 def subject_view(request, subject_id):
     context = search_result(request, subject_id)
     return render(request, 'userindex.html', context)
+
 
 def instructions(request):
     return render(request, 'instructions.html')
@@ -182,6 +187,7 @@ def add_registered_subject(request):
         respons={}
     json = simplejson.dumps(response)
     return HttpResponse(json, content_type="text/json")
+
 
 @login_required
 def delete_registered_subject(request):
@@ -234,25 +240,43 @@ def userhome(request):
 
 @login_required
 def profile(request):
-    if "submit_account_information" in request.POST:
-        data = dict(request.POST)
-        initial_data = {'username' : request.user.username}
-        for k,v in data.items():
-            if v[0]:
-                initial_data[k]=v[0]
-        print(initial_data)
+    flag=None
+    msg=""
 
-        # user=CustomUser.objects.update_or_create(initial_data)
-        # user.save()
-        user=CustomUser(initial_data)
-        try:
-            user.full_clean()
-        except ValidationError:
-            # Do something when validation is not passing
-            print(ValidationError)
+    if "submit_account_information" in request.POST:
+        # instance = CustomUser()
+        # instance.id = request.user.id
+        user = CustomUser.objects.get(username = request.user.username)
+        form = ProfileForm(request.POST or None, instance=user)
+
+        if form.is_valid():
+            form.save()
+            flag = "success"
+            msg = "Account Updated ..."
         else:
-            # Validation is ok we will save the instance
-            user.save()
+            flag = "failed"
+            msg = "Unable to update you account..."
+        
+        # data = dict(request.POST)
+        # initial_data = {'username' : request.user.username}
+        # for k,v in data.items():
+        #     if v[0]:
+        #         initial_data[k]=v[0]
+        # print(initial_data)
+
+        # # user=CustomUser.objects.update_or_create(initial_data)
+        # # user.save()
+        # user=CustomUser(initial_data)
+
+        # print(user)
+        # try:
+        #     user.full_clean()
+        # except ValidationError:
+        #     # Do something when validation is not passing
+        #     print(ValidationError)
+        # else:
+        #     # Validation is ok we will save the instance
+        #     user.save()
 
         # if user.full_clean():
         #     user.save()
@@ -267,5 +291,5 @@ def profile(request):
         # profile_form.save()
 
         # print(profile_form, profile_form.is_valid()) 
-
-    return render(request, 'accounts/profile.html')
+    user = CustomUser.objects.get(username = request.user.username)
+    return render(request, 'accounts/profile.html', {'flag':flag, 'msg':msg, 'user':user})

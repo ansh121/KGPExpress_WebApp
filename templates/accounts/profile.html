@@ -14,6 +14,19 @@
 {% endblock stylesheets %} {% block body_class %} {%endblock body_class %}
 {%block content %}
 <main class="page" >
+{% if flag %}
+<div class="container">
+  <div class="card">
+    <div class="card-body text-center">
+      {% if flag == "failed" %}
+        <div class="text-danger">{{msg}}</div>
+      {% else %}
+        <div class="text-success">{{msg}}</div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endif %}
 <div class="container">
   <div class="row">
     <div class="col-sm-12">
@@ -842,7 +855,7 @@
                                         <td
                                           class="social-user-name b-none p-t-0 text-muted"
                                         >
-                                          {{ request.user.username }}
+                                          {{ user.username }}
                                         </td>
                                       </tr>
                                       <tr>
@@ -852,7 +865,7 @@
                                         <td
                                           class="social-user-name b-none p-t-0 text-muted"
                                         >
-                                          {{ request.user.first_name|default_if_none:""  }}
+                                          {{ user.first_name|default_if_none:""  }}
                                         </td>
                                       </tr>
                                       <tr>
@@ -862,7 +875,7 @@
                                         <td
                                           class="social-user-name b-none p-t-0 text-muted"
                                         >
-                                          {{ request.user.last_name|default_if_none:"" }}
+                                          {{ user.last_name|default_if_none:"" }}
                                         </td>
                                       </tr>
                                       <tr>
@@ -872,7 +885,7 @@
                                         <td
                                           class="social-user-name b-none p-t-0 text-muted"
                                         >
-                                          {{ request.user.email }}
+                                          {{ user.email }}
                                         </td>
                                       </tr>
                                       <tr>
@@ -882,7 +895,7 @@
                                         <td
                                           class="social-user-name b-none text-muted"
                                         >
-                                          {{ request.user.roll_no|default_if_none:"" }}
+                                          {{ user.roll_no|default_if_none:"" }}
                                         </td>
                                       </tr>
                                       <tr>
@@ -892,7 +905,7 @@
                                         <td
                                           class="social-user-name b-none text-muted"
                                         >
-                                          {{ request.user.institute_email_id|default_if_none:"" }}<br>
+                                          {{ user.institute_email_id|default_if_none:"" }}<br>
                                           <!-- {{ request.user.id }}<br>
                                           {{ request.user.password }}<br>
                                           {{ request.user.last_login }}<br>

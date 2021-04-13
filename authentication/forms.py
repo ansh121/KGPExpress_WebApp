@@ -24,20 +24,21 @@ class ForgetPasswordForm(SetPasswordForm):
     new_password2 = forms.CharField()
 
 
-# class ProfileForm(forms.ModelForm):
-#     username = forms.CharField()
-#     first_name = forms.CharField(required=False)
-#     last_name = forms.CharField(required=False)
-#     roll_no = forms.CharField(required=False)
-#     institute_email_id = forms.EmailField(required=False)
+class ProfileForm(forms.ModelForm):
+    # id = forms.IntegerField()
+    # username = forms.CharField()
+    first_name = forms.CharField(required=False)
+    last_name = forms.CharField(required=False)
+    roll_no = forms.CharField(required=False)
+    institute_email_id = forms.EmailField(required=False)
 
-#     class Meta:
-#         model = CustomUser
-#         fields = ('username','first_name', 'last_name', 'roll_no', 'institute_email_id')
+    class Meta:
+        model = CustomUser
+        fields = ('first_name', 'last_name', 'roll_no', 'institute_email_id')
 
-#     def update(self, username, commit=True):
-#         instance = super(ProfileForm, self).save(commit=False)
-#         instance.username = username  
-#         if self.cleaned_data['first_name']:
-#             instance.first_name = self.cleaned_data['multi_choice']
-#         print(instance)
+    # def update(self, username, commit=True):
+    #     instance = super(ProfileForm, self).save(commit=False)
+    #     instance.username = username  
+    #     if self.cleaned_data['first_name']:
+    #         instance.first_name = self.cleaned_data['multi_choice']
+    #     print(instance)
