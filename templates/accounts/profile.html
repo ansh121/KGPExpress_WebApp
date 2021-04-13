@@ -33,16 +33,6 @@
       <div>
         <div class="content social-timeline">
           <div class="">
-            <!-- <div class="row">
-              <div class="col-md-12">
-                <div class="social-wallpaper">
-                  <div class="profile-hvr">
-                    <i class="icofont icofont-ui-edit p-r-10"></i>
-                    <i class="icofont icofont-ui-delete"></i>
-                  </div>
-                </div>
-              </div>
-            </div> -->
 
             <div class="row">
               <div class="col-xl-3 col-lg-4 col-md-4 col-xs-12">
@@ -67,51 +57,7 @@
                     <div class="card-block social-follower">
                       <h4>{{ request.user.username }}</h4>
                       <h5>{{ request.user.email }}</h5>
-                      <!-- <div class="row follower-counter">
-                        <div class="col-4">
-                          <button
-                            class="btn btn-primary btn-icon"
-                            data-toggle="tooltip"
-                            data-placement="top"
-                            title=""
-                            data-original-title="485"
-                          >
-                            <i class="fa fa-user"></i>
-                          </button>
-                        </div>
-                        <div class="col-4">
-                          <button
-                            class="btn btn-danger btn-icon"
-                            data-toggle="tooltip"
-                            data-placement="top"
-                            title=""
-                            data-original-title="2k"
-                          >
-                            <i class="fa fa-thumbs-o-up"></i>
-                          </button>
-                        </div>
-                        <div class="col-4">
-                          <button
-                            class="btn btn-success btn-icon"
-                            data-toggle="tooltip"
-                            data-placement="top"
-                            title=""
-                            data-original-title="90"
-                          >
-                            <i class="fa fa-eye"></i>
-                          </button>
-                        </div>
-                      </div>
-                      <div class="">
-                        <button
-                          type="button"
-                          class="btn btn-outline-primary waves-effect btn-block"
-                        >
-                          <i class="icofont icofont-ui-user m-r-10"></i> Add as
-                          Friend
-                        </button>
-                      </div> -->
-                    </div>
+                     </div>
                   </div>
                   <div class="card social-tabs">
                     <div>
@@ -143,23 +89,21 @@
                           <a
                             class="nav-link"
                             data-toggle="tab"
-                            href="#mysubjects"
+                            href="#notification"
                             role="tab"
-                            >My Subjects</a
+                            >Notification</a
                           >
                           <div class="slide"></div>
                         </li>
-                        <li class="nav-item">
-                          <a
-                            class="nav-link"
-                            data-toggle="tab"
-                            href="#friends"
-                            role="tab"
-                            >Friends</a
-                          >
-                          <div class="slide"></div>
-                        </li>
+                        <!-- <li class="nav-item">
+                          
+                        </li> -->
                       </ul>
+                      <a
+                            class="nav-link btn btn-danger btn-block btn-sm"
+                            href="{% url 'authentication:logout' %}"
+                            >Logout  <i class="fas fa-sign-out-alt"></i></a
+                          >
                     </div>
                   </div>
                   <!-- <div class="card">
@@ -1262,250 +1206,58 @@
                     </div>
                   </div>
 
-                  <div class="tab-pane" id="mysubjects">
-                    <div class="card">
-                      <div class="card-block">
-                        <div class="demo-gallery">
-                          <ul id="profile-lightgallery" class="row">
-                            <li class="col-md-4 col-lg-2 col-sm-6 col-xs-12">
-                              <a
-                                href="#"
-                                data-toggle="lightbox"
-                                data-title="A random title"
-                                data-footer="A custom footer text"
-                              >
-                                <img
-                                  src="https://bootdey.com/img/Content/avatar/avatar1.png"
-                                  class="img-fluid"
-                                  alt=""
-                                />
-                              </a>
-                            </li>
-                            <li class="col-md-4 col-lg-2 col-sm-6 col-xs-12">
-                              <a
-                                href="#"
-                                data-toggle="lightbox"
-                                data-title="A random title"
-                                data-footer="A custom footer text"
-                              >
-                                <img
-                                  src="https://bootdey.com/img/Content/avatar/avatar2.png"
-                                  class="img-fluid"
-                                  alt=""
-                                />
-                              </a>
-                            </li>
-                            <li class="col-md-4 col-lg-2 col-sm-6 col-xs-12">
-                              <a
-                                href="#"
-                                data-toggle="lightbox"
-                                data-title="A random title"
-                                data-footer="A custom footer text"
-                              >
-                                <img
-                                  src="https://bootdey.com/img/Content/avatar/avatar3.png"
-                                  class="img-fluid"
-                                  alt=""
-                                />
-                              </a>
-                            </li>
-                            <li class="col-md-4 col-lg-2 col-sm-6 col-xs-12">
-                              <a
-                                href="#"
-                                data-toggle="lightbox"
-                                data-title="A random title"
-                                data-footer="A custom footer text"
-                              >
-                                <img
-                                  src="https://bootdey.com/img/Content/avatar/avatar4.png"
-                                  class="img-fluid"
-                                  alt=""
-                                />
-                              </a>
-                            </li>
-                          </ul>
+                  <div class="tab-pane" id="notification">
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <div class="card">
+                          <div class="card-header">
+                            <h5 class="card-header-text">
+                              Notification Setting
+                            </h5>
+                            <button
+                              id="edit-btn"
+                              type="button"
+                              class="btn btn-primary waves-effect waves-light f-right"
+                            >
+                              <i class="icofont icofont-edit"></i>
+                            </button>
+                          </div>
+                          <div class="card-block">
+                            <div id="view-info" class="row">
+                              <div class="col-lg-12 col-md-12">
+                                
+                                <form>
+                                  <table class="table table-responsive m-b-0">
+                                    <tbody>
+                                      <tr>
+                                        <td
+                                          class="social-user-name b-none p-t-0 text-muted"
+                                        >
+                                        Turn on Daily Notification to get daily updates of upcoming events of your registered subjects
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <th class="social-label b-none p-t-0">
+                                          Daily Notification
+                                        </th>
+                                        <td
+                                          class="social-user-name b-none p-t-0 text-muted"
+                                        >
+                                        <input id="notification" type="checkbox"  data-toggle="toggle">
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </form>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  <div class="tab-pane" id="friends">
-                    <div class="row">
-                      <div class="col-lg-12 col-xl-6">
-                        <div class="card">
-                          <div class="card-block post-timelines">
-                            <span
-                              class="dropdown-toggle addon-btn text-muted f-right service-btn"
-                              data-toggle="dropdown"
-                              aria-haspopup="true"
-                              aria-expanded="true"
-                              role="tooltip"
-                            ></span>
-                            <div
-                              class="dropdown-menu dropdown-menu-right b-none services-list"
-                            >
-                              <a class="dropdown-item" href="#">Remove tag</a>
-                              <a class="dropdown-item" href="#">Report Photo</a>
-                              <a class="dropdown-item" href="#"
-                                >Hide From Timeline</a
-                              >
-                              <a class="dropdown-item" href="#">Blog User</a>
-                            </div>
-                            <div class="media bg-white d-flex">
-                              <div class="media-left media-middle">
-                                <a href="#">
-                                  <img
-                                    class="media-object"
-                                    width="120"
-                                    src="https://bootdey.com/img/Content/avatar/avatar1.png"
-                                    alt=""
-                                  />
-                                </a>
-                              </div>
-                              <div class="media-body friend-elipsis">
-                                <div class="f-15 f-bold m-b-5">
-                                  Josephin Doe
-                                </div>
-                                <div class="text-muted social-designation">
-                                  Software Engineer
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-lg-12 col-xl-6">
-                        <div class="card">
-                          <div class="card-block post-timelines">
-                            <span
-                              class="dropdown-toggle addon-btn text-muted f-right service-btn"
-                              data-toggle="dropdown"
-                              aria-haspopup="true"
-                              aria-expanded="true"
-                              role="tooltip"
-                            ></span>
-                            <div
-                              class="dropdown-menu dropdown-menu-right b-none services-list"
-                            >
-                              <a class="dropdown-item" href="#">Remove tag</a>
-                              <a class="dropdown-item" href="#">Report Photo</a>
-                              <a class="dropdown-item" href="#"
-                                >Hide From Timeline</a
-                              >
-                              <a class="dropdown-item" href="#">Blog User</a>
-                            </div>
-                            <div class="media bg-white d-flex">
-                              <div class="media-left media-middle">
-                                <a href="#">
-                                  <img
-                                    class="media-object"
-                                    width="120"
-                                    src="https://bootdey.com/img/Content/avatar/avatar2.png"
-                                    alt=""
-                                  />
-                                </a>
-                              </div>
-                              <div class="media-body friend-elipsis">
-                                <div class="f-15 f-bold m-b-5">
-                                  Josephin Doe
-                                </div>
-                                <div class="text-muted social-designation">
-                                  Software Engineer
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-lg-12 col-xl-6">
-                        <div class="card">
-                          <div class="card-block post-timelines">
-                            <span
-                              class="dropdown-toggle addon-btn text-muted f-right service-btn"
-                              data-toggle="dropdown"
-                              aria-haspopup="true"
-                              aria-expanded="true"
-                              role="tooltip"
-                            ></span>
-                            <div
-                              class="dropdown-menu dropdown-menu-right b-none services-list"
-                            >
-                              <a class="dropdown-item" href="#">Remove tag</a>
-                              <a class="dropdown-item" href="#">Report Photo</a>
-                              <a class="dropdown-item" href="#"
-                                >Hide From Timeline</a
-                              >
-                              <a class="dropdown-item" href="#">Blog User</a>
-                            </div>
-                            <div class="media bg-white d-flex">
-                              <div class="media-left media-middle">
-                                <a href="#">
-                                  <img
-                                    class="media-object"
-                                    width="120"
-                                    src="https://bootdey.com/img/Content/avatar/avatar3.png"
-                                    alt=""
-                                  />
-                                </a>
-                              </div>
-                              <div class="media-body friend-elipsis">
-                                <div class="f-15 f-bold m-b-5">
-                                  Josephin Doe
-                                </div>
-                                <div class="text-muted social-designation">
-                                  Software Engineer
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-lg-12 col-xl-6">
-                        <div class="card">
-                          <div class="card-block post-timelines">
-                            <span
-                              class="dropdown-toggle addon-btn text-muted f-right service-btn"
-                              data-toggle="dropdown"
-                              aria-haspopup="true"
-                              aria-expanded="true"
-                              role="tooltip"
-                            ></span>
-                            <div
-                              class="dropdown-menu dropdown-menu-right b-none services-list"
-                            >
-                              <a class="dropdown-item" href="#">Remove tag</a>
-                              <a class="dropdown-item" href="#">Report Photo</a>
-                              <a class="dropdown-item" href="#"
-                                >Hide From Timeline</a
-                              >
-                              <a class="dropdown-item" href="#">Blog User</a>
-                            </div>
-                            <div class="media bg-white d-flex">
-                              <div class="media-left media-middle">
-                                <a href="#">
-                                  <img
-                                    class="media-object"
-                                    width="120"
-                                    src="https://bootdey.com/img/Content/avatar/avatar6.png"
-                                    alt=""
-                                  />
-                                </a>
-                              </div>
-                              <div class="media-body friend-elipsis">
-                                <div class="f-15 f-bold m-b-5">
-                                  Josephin Doe
-                                </div>
-                                <div class="text-muted social-designation">
-                                  Software Engineer
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+               </div>
               </div>
             </div>
           </div>
@@ -1515,72 +1267,6 @@
   </div>
 </div>
 </main>
-<!-- <section class="page">
-  <div class="container">
-    <div class="row">
-      <div class="col col-md-3">
-        <div
-          class="card text-center profile-nav"
-          style="background-color: #007bff"
-        >
-          <div class="card-body round">
-            <div class="text-white">
-              <h6 class="card-title text-left">Profile</h6>
-              <hr style="color: white" />
-              <a href="#" style="color: white">
-                <i class="fa fa-user fa-8x" aria-hidden="true"></i>
-              </a>
-              <br /><br />
-              <h3>Camila Smith</h3>
-              <p>deydey@theEmail.com</p>
-            </div>
-          </div>
-          <hr />
-          <div id="tab" style="background-color: white">
-            <ul role="tablist" class="nav nav-tabs">
-              <li role="presentation" class="nav-item">
-                <a
-                  role="tab"
-                  data-toggle="tab"
-                  class="nav-link active"
-                  href="#tab-1"
-                  >Tab 1</a
-                >
-              </li>
-              <li role="presentation" class="nav-item">
-                <a role="tab" data-toggle="tab" class="nav-link" href="#tab-2"
-                  >Tab 2</a
-                >
-              </li>
-              <li role="presentation" class="nav-item">
-                <a role="tab" data-toggle="tab" class="nav-link" href="#tab-3"
-                  >Tab 3</a
-                >
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="col col-md-9">
-        <div class="card">
-          <div class="card-body round">
-            <div class="tab-content">
-              <div role="tabpanel" class="tab-pane active" id="tab-1">
-                <p>Content for tab 1.</p>
-              </div>
-              <div role="tabpanel" class="tab-pane" id="tab-2">
-                <p>Content for tab 2.</p>
-              </div>
-              <div role="tabpanel" class="tab-pane" id="tab-3">
-                <p>Content for tab 3.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section> -->
 {% endblock content %}
 
 <!-- Specific Page JS goes HERE  -->
@@ -1589,5 +1275,6 @@
 <!-- <script src="/static/assets/js/index.js"></script> -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
-
+<script src="/static/assets/js/profile.js"></script>
+<script src="/static/assets/js/csrf_handling.js"></script>
 {% endblock javascripts %}

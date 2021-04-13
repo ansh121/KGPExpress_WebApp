@@ -293,3 +293,16 @@ def profile(request):
         # print(profile_form, profile_form.is_valid()) 
     user = CustomUser.objects.get(username = request.user.username)
     return render(request, 'accounts/profile.html', {'flag':flag, 'msg':msg, 'user':user})
+
+@login_required
+def notification(request):
+    if request.is_ajax():
+        data=request.POST
+        print(data['notification'])
+        if data['notification'] == "true":
+            CustomUser.objects.filter(id=request.user.id).update(notification=True)
+        elif data['notification'] == "false":
+            CustomUser.objects.filter(id=request.user.id).update(notification=False)
+    
+    json = simplejson.dumps({})
+    return HttpResponse(json, content_type="text/json")
