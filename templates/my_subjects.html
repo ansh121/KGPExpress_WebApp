@@ -45,7 +45,7 @@
                     <li id="{{sub.subject_id}}" class="list-group-item">
                       <div class="row">
                         <div class="col-10">
-                          <a class="btn btn-sm text-truncate btn-block text-left">
+                          <a class="btn btn-sm text-truncate btn-block text-left" href="{% url 'app:subject_view' subject_id=sub.subject_id %}">
                             {{sub.subject_code}}: {{sub.subject_name}}
                           </a>
                         </div>

@@ -10,6 +10,8 @@ urlpatterns = [
     url(r'^event/new/$', views.event, name='event_new'),
     url(r'^event/edit/(?P<event_id>\d+)/$', views.event, name='event_edit'),
     url(r'^event/view/(?P<event_id>\d+)/$', views.event_view, name='event_view'),
+    url(r'^event/delete/(?P<event_id>\d+)/$', views.event_delete, name='event_delete'),
+    url(r'^userhome/(?P<subject_id>\d+)/$', views.subject_view, name='subject_view'),
     path('userhome/', views.userhome, name='userhome'),
     # path('userhome/', views.HomeView.as_view(template_name='userindex.html'), name='userhome'),
     path('instructions/', views.instructions, name='instructions'),

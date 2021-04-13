@@ -14,7 +14,7 @@ class EventForm(ModelForm):
     start_time = forms.DateTimeField(widget = DateInput(attrs={'type': 'datetime-local'}, format='%Y-%m-%dT%H:%M'))
     end_time = forms.DateTimeField(widget = DateInput(attrs={'type': 'datetime-local'}, format='%Y-%m-%dT%H:%M'))
     description = forms.CharField
-    is_recurring = forms.BooleanField(initial=True, required=False)
+    # is_recurring = forms.BooleanField(initial=True, required=False)
     type = forms.CharField
     #time_of_edit = forms.DateTimeField(widget=DateInput(attrs={'type': 'datetime-local'}, format='%Y-%m-%dT%H:%M'))
 

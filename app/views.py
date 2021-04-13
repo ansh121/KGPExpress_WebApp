@@ -40,7 +40,45 @@ def index(request):
 def event(request, event_id=None):
     if request.user.verification_status == False:
         return render(request, 'event_add_and_edit.html', {'verification_status': False})
+    
     if event_id:
+        msg=None
+        if request.POST:
+            # Update Existing Event
+            data=request.POST.copy()
+            print(data)
+            # data['subject']=' '.join(data['subject'].split(' '))
+            sub=Subject.objects.get(subject_code=data['subject'][:7])
+            data['subject']=sub
+
+            instance=Event()
+            instance.time_of_edit = timezone.now()
+            instance.user=request.user
+            instance.subject=sub
+            if 'is_recurring' in data.keys():
+                instance.is_recurring=True
+            else:
+                instance.is_recurring=False
+            
+            form = EventForm(data or None, instance=instance)
+
+            if form.is_valid():
+                # form.save()
+                event = Event.objects.get(event_id=event_id)
+                event.event_name=data['event_name']
+                event.start_time=data['start_time']
+                event.end_time=data['end_time']
+                event.description=data['description']
+                event.is_recurring=instance.is_recurring
+                event.type=data['type']
+                event.time_of_edit=instance.time_of_edit
+                event.save()
+ 
+                msg='Event updated successfully!'
+            else:
+                msg = "failed to add event !!!"
+    
+        # Show old event
         event = Event.objects.get(event_id=event_id)
         subject = Subject.objects.get(subject_id=getattr(event,'subject_id'))
         # subject = subject.values(())
@@ -54,8 +92,9 @@ def event(request, event_id=None):
         e_time=str(event.end_time)
         event.end_time='T'.join(e_time[:-9].split(' '))
         print(subject,event.is_recurring)
-        return render(request, 'event_add_and_edit.html', {'event': event, 'subject':subject})
+        return render(request, 'event_add_and_edit.html', {'event': event, 'subject':subject, 'msg':msg})
     elif request.POST:
+        # Add new Event
         data=request.POST.copy()
         print(data)
         # data['subject']=' '.join(data['subject'].split(' '))
@@ -66,20 +105,41 @@ def event(request, event_id=None):
         instance.time_of_edit = timezone.now()
         instance.user=request.user
         instance.subject=sub
+        if 'is_recurring' in data.keys():
+            instance.is_recurring=True
+        else:
+            instance.is_recurring=False
 
         form = EventForm(data or None, instance=instance)
 
         if form.is_valid():
             form.save()
             msg='Event added successfully!'
+        else:
+            msg = "Error in form !!!"
         return render(request, 'event_add_and_edit.html', {'msg': msg, 'form':form})
     else:
         return render(request, 'event_add_and_edit.html')
 
 def event_view(request, event_id=None):
+    if event_id==None:
+        if request.user.is_authenticated:
+            return redirect('/userhome/')
+        else:
+            return redirect('/home/')
+
     event = Event.objects.get(event_id=event_id)
     subject = Subject.objects.get(subject_id = getattr(event,'subject_id'))
     return render(request, 'event.html',{'event': event, 'subject_name':getattr(subject,'subject_name')+" ("+getattr(subject,'subject_code')+")"})
+
+def event_delete(request, event_id):
+    event = Event.objects.get(event_id=event_id)
+    event.delete()
+    return render(request, 'event_add_and_edit.html', {'delete_flag':True})
+
+def subject_view(request, subject_id):
+    context = search_result(request, subject_id)
+    return render(request, 'userindex.html', context)
 
 def instructions(request):
     return render(request, 'instructions.html')

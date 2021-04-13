@@ -3,6 +3,11 @@
 {% block content %}
 <div class="clearfix" style="padding-top: 55px">
   <a class="btn btn-primary left" href="{% url 'app:userhome' %}"><i class="fas fa-backward"></i> Calendar</a>
+  {% if event %}
+  <a class="btn btn-primary right" href="{% url 'app:event_new' %}"><i class="fas fa-plus"></i> New Event</a>
+  {% elif delete_flag %}
+  <a class="btn btn-primary right" href="{% url 'app:event_new' %}"><i class="fas fa-plus"></i> New Event</a>
+  {% endif %}
 </div>
 
 <section class="clean-block clean-form dark" style="background: transparent;">
@@ -11,6 +16,12 @@
   <div class="card">
     <div class="card-body text-center">
       <p>Please complete you profile to create and edit Events. Click here to complete <a href="{% url 'app:profile' %}" style="font-size: 14px;">Profile</a>.</p>
+    </div>
+  </div>
+  {% elif delete_flag == True %}
+  <div class="card">
+    <div class="card-body text-center">
+      <div class="text-danger">Event deleted !!!</div>
     </div>
   </div>
   {% else %}
@@ -233,12 +244,23 @@
           >Is Recurring</label
         >
       </div>
-      <button
-        class="btn btn-primary btn-block"
-        type="submit"
-      >
+      {% if event %}
+        <div class="row">
+          <div class="col-6">
+            <button class="btn btn-primary btn-block left" type="submit">
+              Submit
+            </button>
+          </div>
+          <div class="col-6">
+            <a class="btn btn-danger btn-block right" href="{% url 'app:event_delete' event_id=event.event_id %}"><i class="fas fa-trash"></i> Delete</a>
+          </div>
+        </div>
+      {% else %}
+      <button class="btn btn-primary btn-block" type="submit">
         Submit
       </button>
+      {% endif %}
+      
     </form>
   {% endif %}
   </div>

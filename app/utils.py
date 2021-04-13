@@ -3,28 +3,39 @@ from .models import *
 from django.forms.models import model_to_dict
 
 
-def search_result(request):
+def search_result(request, subject_id=None):
     context={}
     context['search_result']=False
-
-    form = SearchForm(request.GET or None)
     subList = []
-    if form.is_valid():
-        context['search_result']=True
-        query_code= form.cleaned_data['subject'][:7]
-        query_code = query_code.strip()
-        query_year = form.cleaned_data['year']
-        query_sem = form.cleaned_data['semester']
-        context['subject'] = form.cleaned_data['subject']
 
+    if subject_id:
+        form = SearchForm()
+        context['search_result']=True
         try:
-            subject = Subject.objects.get(subject_code=query_code, semester=query_sem, year=query_year)
+            subject = Subject.objects.get(subject_id=subject_id)
+            context['subject'] = getattr(subject,"subject_code")+": "+getattr(subject,"subject_name")
             subList.append(subject)
         except Subject.DoesNotExist:
             subject = None
             print("Subject Entry does not exist")
     else:
-        print(form.errors)
+        form = SearchForm(request.GET or None)
+        if form.is_valid():
+            context['search_result']=True
+            query_code= form.cleaned_data['subject'][:7]
+            query_code = query_code.strip()
+            query_year = form.cleaned_data['year']
+            query_sem = form.cleaned_data['semester']
+            context['subject'] = form.cleaned_data['subject']
+
+            try:
+                subject = Subject.objects.get(subject_code=query_code, semester=query_sem, year=query_year)
+                subList.append(subject)
+            except Subject.DoesNotExist:
+                subject = None
+                print("Subject Entry does not exist")
+        else:
+            print(form.errors)
 
     events = Event.objects.filter(subject__in=subList)
     context['event'] = get_event_str(events)

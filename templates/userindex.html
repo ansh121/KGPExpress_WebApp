@@ -87,22 +87,22 @@
     </div>
   </section>
 
-  {% if search_result == True %}
+
   <section>
     <div class="container card" style="padding: 0px">
       <!-- <div class="container" > -->
       <div class="card-body">
-        {% if subject %}
+        
       <div class="card-title">  
       <div class="row">
-          <div class="col-9"><h5 class="text-left">{{ subject }}</h5></div>
+          <div class="col-9">{% if subject %}<h5 class="text-left">{{ subject }}</h5>{% endif %}</div>
           <div class="col-3 d-flex justify-content-end">
             <a class="btn btn-sm btn-outline-primary" href="{% url 'app:event_new' %}" style="height: fit-content;"><i class="fa fa-plus" ></i>Add Event</a>
           </div>
       </div>
       <hr />
       </div>
-        {% endif %}
+        
         <div class="dark">
           <div id="calendar"></div>
           <div style="clear: both"></div>
@@ -110,6 +110,7 @@
       </div>
     </div>
   </section>
+  {% if search_result == True %}
   <section style="margin: 10px">
     <div class="card container text-left">
       <div class="card-body">
@@ -130,6 +131,7 @@
     </div>
   </section>
   {% endif %}
+
 </main>
 {% endblock content %}
 
