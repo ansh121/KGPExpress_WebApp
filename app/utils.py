@@ -64,8 +64,9 @@ def get_event_str(events):
         eventStr += "\"allDay\": false,  "
         # eventStr += "\"className\": \"{classes}\",  ".format(classes=str(ev.subject_id)+"sub"+str(ev.event_id))
         eventStr += "\"description\": \"{description}\",  ".format(description=ev.description)
+        # eventStr += "\"source\": null,  "
         # this url field needs to be modified
-        eventStr += "\"url\": \"{url}\"".format(url="")
+        eventStr += "\"url\": \"{url}\"".format(url="/event/view/"+str(ev.event_id)+"/")
         eventStr += "},"
     if len(eventStr) > 1:
         eventStr = eventStr[:-1]

@@ -8,10 +8,11 @@ $(document).ready(function () {
       success: function (data1) {
         alert(data1['message']);
         if(data1['flag']=='success'){
-            $('#registered_subjects').append("<li id=\""+data1['subject_id'].slice(0,7)+"\" class=\"list-group-item list-group-item-info\"><div class=\"row\"><div class=\"col-10\"><a class=\"btn btn-sm text-truncate btn-block text-left\">"+$("#subject").val()+"</a></div><div class=\"col-2\"><a class=\"btn btn-sm text-truncate btn-block text-left\"><i class=\"fa fa-trash\" aria-hidden=\"true\"></i></a></div></div></li>");
-          }     
-          // console.log(data)  
-          // console.log(data1)
+            $('#registered_subjects').append("<li id=\""+data1['subject_id'].slice(0,7)+"\" class=\"list-group-item\"><div class=\"row\"><div class=\"col-10\"><a class=\"btn btn-sm text-truncate btn-block text-left\">"+$("#subject").val()+"</a></div><div class=\"col-2\"><a class=\"btn btn-sm text-truncate btn-block text-left\"><i class=\"fa fa-trash\" aria-hidden=\"true\"></i></a></div></div></li>");
+          }
+          $("#subject").val('');
+          console.log(data)  
+          console.log(data1)
           
           data=data.slice(0,-1)+','+data1['event'].slice(1)
           data_update();
@@ -28,11 +29,9 @@ $(document).ready(function () {
         url: "delete_registered_subject/",
         data: { subject_id: $(this).attr('id'), msg: "reached" },
         success: function (data1) {
-          alert(data1['message']);     
+          // alert(data1['message']);     
           // console.log(data1)
-          setTimeout(function(){
-            location.reload();
-          }, 1000);
+          location.reload();
           },
       });
     });
@@ -66,7 +65,7 @@ function fill_colors(){
     event_list[i].className.push("text-white")
   }
 
-  // cal();
+  cal();
 }
 
 $(document).ready(fill_colors());

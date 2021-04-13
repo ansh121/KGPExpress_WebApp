@@ -38,12 +38,26 @@ def index(request):
 
 @login_required
 def event(request, event_id=None):
+    if request.user.verification_status == False:
+        return render(request, 'event_add_and_edit.html', {'verification_status': False})
     if event_id:
-        instance = get_object_or_404(Event, pk=event_id)
-        form = EventForm(request.POST or None, instance=instance)
-        return render(request, 'event.html', {'form': form})
+        event = Event.objects.get(event_id=event_id)
+        subject = Subject.objects.get(subject_id=getattr(event,'subject_id'))
+        # subject = subject.values(())
+        subject = {
+            'subject_code_name': subject.subject_code+' - '+subject.subject_name,
+            'year': subject.year,
+            'semester': subject.semester
+        }
+        st_time=str(event.start_time)
+        event.start_time='T'.join(st_time[:-9].split(' '))
+        e_time=str(event.end_time)
+        event.end_time='T'.join(e_time[:-9].split(' '))
+        print(subject,event.is_recurring)
+        return render(request, 'event_add_and_edit.html', {'event': event, 'subject':subject})
     elif request.POST:
         data=request.POST.copy()
+        print(data)
         # data['subject']=' '.join(data['subject'].split(' '))
         sub=Subject.objects.get(subject_code=data['subject'][:7])
         data['subject']=sub
@@ -56,13 +70,16 @@ def event(request, event_id=None):
         form = EventForm(data or None, instance=instance)
 
         if form.is_valid():
-            # print(form)
             form.save()
-            return HttpResponseRedirect(reverse('app:event_new'))
-        return render(request, 'event.html', {'form': form})
+            msg='Event added successfully!'
+        return render(request, 'event_add_and_edit.html', {'msg': msg, 'form':form})
     else:
-        return render(request, 'event.html')
+        return render(request, 'event_add_and_edit.html')
 
+def event_view(request, event_id=None):
+    event = Event.objects.get(event_id=event_id)
+    subject = Subject.objects.get(subject_id = getattr(event,'subject_id'))
+    return render(request, 'event.html',{'event': event, 'subject_name':getattr(subject,'subject_name')+" ("+getattr(subject,'subject_code')+")"})
 
 def instructions(request):
     return render(request, 'instructions.html')

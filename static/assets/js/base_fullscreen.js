@@ -22,6 +22,9 @@ else if($('title')[0].text==="KGPExpress - Instructions"){
 else if($('title')[0].text==="KGPExpress - About Us"){
     $('#about_us').addClass('active');
 }
+else if($('title')[0].text==="KGPExpress - My Subjects"){
+    $('#my_subjects').addClass('active');
+}
 // else if($('title')[0].text==="KGPExpress - "){
 //     $('#').addClass('active');
 // }
