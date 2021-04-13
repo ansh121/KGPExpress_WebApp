@@ -8,7 +8,7 @@ $(document).ready(function () {
       success: function (data1) {
         alert(data1['message']);
         if(data1['flag']=='success'){
-            $('#registered_subjects').append("<li id=\""+data1['subject_id'].slice(0,7)+"\" class=\"list-group-item\"><div class=\"row\"><div class=\"col-10\"><a class=\"btn btn-sm text-truncate btn-block text-left\" href=\"userhome/"+data1['subject_id'].slice(0,7)+"\">"+$("#subject").val()+"</a></div><div class=\"col-2\"><a class=\"btn btn-sm text-truncate btn-block text-left\"><i class=\"fa fa-trash\" aria-hidden=\"true\"></i></a></div></div></li>");
+            $('#registered_subjects').append("<li id=\""+data1['subject_id'].slice(0,7)+"\" class=\"list-group-item\"><div class=\"row\"><div class=\"col-10\"><a class=\"btn btn-sm text-truncate btn-block text-left\" href=\"/userhome/"+data1['subject_id'].slice(0,7)+"/\">"+$("#subject").val()+"</a></div><div class=\"col-2\"><a class=\"btn btn-sm text-truncate btn-block text-left\"><i class=\"fa fa-trash\" aria-hidden=\"true\"></i></a></div></div></li>");
           }
           $("#subject").val('');
           console.log(data)  
