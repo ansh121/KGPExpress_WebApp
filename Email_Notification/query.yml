@@ -1,7 +1,7 @@
 get_user:
   description: "To get all user's username and email-id"
-  query: "SELECT username, email, first_name, last_name FROM public.authentication_customuser"
+  query: "SELECT username, email, first_name, last_name FROM authentication_customuser where notification='TRUE'"
 
 get_event:
   description: "Get Event of a particular user for the next day"
-  query: "select S.subject_name, S.subject_code, E.event_name, E.description, E.start_time, E.end_time from public.event E, public.subject S, public.registered_subjects RS, public.authentication_customuser U where E.start_time::timestamp::date = CURRENT_DATE + 1 and E.subject_id = S.subject_id and S.subject_id = RS.subject_id and U.username = %s and U.id = RS.user_id"
+  query: "select S.subject_name, S.subject_code, E.event_name, E.description, E.start_time, E.end_time from event E, subject S, registered_subjects RS, authentication_customuser U where E.start_time::timestamp::date = CURRENT_DATE + 1 and E.subject_id = S.subject_id and S.subject_id = RS.subject_id and U.username = %s and U.id = RS.user_id"
